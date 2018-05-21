@@ -1,0 +1,86 @@
+{% extends 'users/base1.html' %}
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static 'js/users.js' %}"></script>
+ 
+{% endblock %}
+
+
+
+{% block style %}
+ <link rel="stylesheet" type="text/css" href="{% static 'css/mystyle.css' %}">
+
+{% endblock %}
+
+
+
+{% block content %}
+  
+<div style="width: 95%; margin-top: 50px">
+
+  <h1 class="page-header">ITEMS</h1>
+
+
+<p>
+    <button style="float: left;" type="button" class="btn btn-primary js-create-boo" data-url=""  >
+      <span class="glyphicon glyphicon-plus"></span>
+      New Item
+    </button>
+    <form class="" role="search">
+        
+          <input style="float: left; width: 200px; margin-left: 40px" name="q"  type="search" class="form-control"  id="buscador" placeholder="Search" data-url="{% url 'invoices:item_filter_list' %}" >
+       
+       
+        <button style="margin-left: 20px"  type="submit"  class="btn btn-success">Submit</button>
+      </form>
+  </p>
+
+
+  <table class="table table-hover" id="book-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>UNITS</th>
+        <th>ITEM NAME</th>
+        <th>ITEM PRICE</th>
+        <th>PROVIDER</th>
+
+        
+      </tr>
+    </thead>
+    <tbody>
+      {% include 'items/partial_item_list.html' %}
+    </tbody>
+  </table>
+
+  <div class="modal fade" id="modal-book">
+    <div class="modal-dialog">
+
+
+      <div class="modal-content">
+      </div>
+    </div>
+  </div>
+  {% if items.has_other_pages %}
+  <ul class="pagination">
+    {% if items.has_previous %}
+      <li><a href="?page={{ items.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in items.paginator.page_range %}
+      {% if items.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if items.has_next %}
+      <li><a href="?page={{ items.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+{% endblock %}

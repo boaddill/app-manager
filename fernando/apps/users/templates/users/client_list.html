@@ -1,0 +1,83 @@
+{% extends 'users/base1.html' %}
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static 'js/users.js' %}"></script>
+ 
+{% endblock %}
+
+
+
+{% block style %}
+ <link rel="stylesheet" type="text/css" href="{% static 'css/mystyle.css' %}">
+
+{% endblock %}
+
+
+
+{% block content %}
+  
+<div style="width: 80%; float: right;">
+
+  <h1 class="page-header">USERS</h1>
+
+
+<p>
+    <button style="float: left;" type="button" class="btn btn-primary js-create-book" data-url="{% url 'users:user_create' %}"  >
+      <span class="glyphicon glyphicon-plus"></span>
+      New user
+    </button>
+    <form class="" role="search">
+        
+          <input style="float: left; width: 200px; margin-left: 40px" name="q"  type="search" class="form-control"  id="buscador" placeholder="Search">
+       
+        <button style="margin-left: 20px"  type="submit"  class="btn btn-success">Submit</button>
+      </form>
+  </p>
+
+
+  <table class="table table-hover" id="book-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>EMAIL</th>
+        <th>DATE JOINED</th>
+         <th>ACTIVE</th>
+        <th>CATEGORY</th>
+        </tr>
+    </thead>
+    <tbody>
+      {% include 'users/partial_user_list.html' %}
+    </tbody>
+  </table>
+
+  <div class="modal fade" id="modal-book">
+    <div class="modal-dialog">
+
+
+      <div class="modal-content">
+      </div>
+    </div>
+  </div>
+  {% if users.has_other_pages %}
+  <ul class="pagination">
+    {% if users.has_previous %}
+      <li><a href="?page={{ users.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in users.paginator.page_range %}
+      {% if users.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if users.has_next %}
+      <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+{% endblock %}

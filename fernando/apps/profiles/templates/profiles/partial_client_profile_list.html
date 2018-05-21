@@ -1,0 +1,41 @@
+{% load static %}
+
+
+{% for client in clients %}
+        <tr>
+           <td>{{ client.id }}</td>
+          
+           <td><a href="{% url 'profiles:profiles_detail' action='Profile_Client'  id=client.id  %}">{{client.company_name}}</a></td>
+
+          
+           <td>{{ client.address}}</td>
+           <td>{{client.contact_phone}}</td>
+           <td>{{client.company_director}}</td>
+           <td>{{client.company_email}}</td>
+           <td>
+      <button type="button"
+              class="btn btn-warning btn-sm js-update-client"
+              data-url="{% url 'users:user_update' user.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> Edit
+      </button>
+      <button type="button"
+              class="btn btn-danger btn-sm js-delete-book"
+              data-url="{% url 'users:user_delete' user.id %}">
+        <span class="glyphicon glyphicon-trash"></span> Delete
+      </button>
+    </td>
+          
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7" class="text-center bg-warning">No Clients</td>
+        </tr>
+      {% endfor %}
+
+
+
+
+
+
+
+

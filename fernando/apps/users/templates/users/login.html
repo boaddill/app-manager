@@ -1,0 +1,77 @@
+{% extends "users/base1.html" %}
+{% load widget_tweaks %}
+
+{% block style %}
+
+<style type="text/css">
+  
+#main{
+  margin-top: 100px;
+  width: 40%;
+  margin: auto ;
+  margin-top: 100px;
+  border: solid 1px ;
+  padding: 30px;
+  border-radius: 5px;
+  background:  rgba(226,226,226,1.00);
+}
+
+
+
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div  id="main">
+<form method="post" novalidate>
+  {% csrf_token %}
+
+  {% for hidden_field in form.hidden_fields %}
+    {{ hidden_field }}
+  {% endfor %}
+
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+      {% for error in form.non_field_errors %}
+        {{ error }}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% for field in form.visible_fields %}
+    <div class="form-group">
+      {{ field.label_tag }}
+
+      {% if form.is_bound %}
+        {% if field.errors %}
+          {% render_field field class="form-control is-invalid" %}
+          {% for error in field.errors %}
+            <div class="invalid-feedback">
+              {{ error }}
+            </div>
+          {% endfor %}
+        {% else %}
+          {% render_field field class="form-control is-valid" %}
+        {% endif %}
+      {% else %}
+        {% render_field field class="form-control" %}
+      {% endif %}
+
+      {% if field.help_text %}
+        <small class="form-text text-muted">{{ field.help_text }}</small>
+      {% endif %}
+    </div>
+  {% endfor %}
+
+  <button type="submit" class="btn btn-primary">Submit</button><br><br>
+  <a style=" color: red" href="http://127.0.0.1:8000/accounts/password_reset">Forgot password ?</a>
+</form>
+
+</div>
+
+
+{% endblock %}

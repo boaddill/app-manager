@@ -1,0 +1,33 @@
+{% load static %}
+
+
+{% for item in items %}
+        <tr>
+          <td>{{ item.id }}</td>
+          <td>{{ item.unit }}</td>
+          <td>{{ item.item_name}}</td>
+          <td>{{ item.item_price}}</td>
+          <td>{{ item.provider}}</td>
+
+    
+
+           <td>
+      <button type="button"
+              class="btn btn-warning btn-sm js-update-boo"
+              >
+        <span class="glyphicon glyphicon-pencil"></span> Edit
+      </button>
+
+      <button type="button"
+              class="btn btn-danger btn-sm js-delete-boo"
+              >
+        <span class="glyphicon glyphicon-trash"></span> Delete
+      </button>
+    </td>
+          
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7" class="text-center bg-warning">No Items</td>
+        </tr>
+      {% endfor %}

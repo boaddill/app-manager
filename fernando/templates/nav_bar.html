@@ -1,0 +1,121 @@
+
+   
+
+
+  <nav class="navbar navbar-default navbar-fixed-to">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#topFixedNavbar1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+        <a class="navbar-brand" href="#">Brand</a></div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="topFixedNavbar1">
+        <ul class="nav navbar-nav">
+          <li s><a href="">HOME<span class="sr-only">(current)</span></a></li>
+         <li s><a href="">ABOUT US<span class="sr-only">(current)</span></a></li>
+         <li s><a href="">CONTACT US<span class="sr-only">(current)</span></a></li>
+         <li s><a href="">WORK WITH US<span class="sr-only">(current)</span></a></li>
+
+
+
+
+
+          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">PROJECTS<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Estructural</a></li>
+              <li><a href="#">Civil</a></li>
+              <li><a href="#">Architectural</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Project managment </a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Quantity surveying</a></li>
+            </ul>
+          </li>
+          
+        <!-- </ul>
+        <form class="navbar-form navbar-left" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <ul class="nav navbar-nav navbar-right"> -->
+
+          
+          {% if request.user.is_authenticated %}
+          {% if request.user.is_client %}
+          <li ><p style="margin-top: 15px; color: red ">{{request.user.profile_client.company_name}}</p></li>
+          {% elif  user.is_employee %}
+          <li><p style="margin-top: 15px; color: red ">{{request.user.profile_employee.employee_name}}</p></li>
+          {% elif request.user.is_provider  %}
+          <li><p style="margin-top: 15px; color: red ">{{request.user.profile_provider.company_name}}</p></li>
+          {% else %}
+          <li style="margin-left: 100px"><p style="margin-top: 15px; color: red ">{{request.user.email}}</p></li>
+          {% endif %}
+          {% else %}
+
+
+          {% endif %}
+
+
+          {% if request.user.is_authenticated %}
+
+          {% if  request.user.is_client %}
+           <li><a href="">Client area</a></li>
+           <li><a href="">log out</a></li>
+           {% elif request.user.is_employee %}
+           <li><a href=" ">Employee area</a></li>
+           <li><a href="{% url 'logout'  %} ">log out</a></li>
+           {% elif request.user.is_provider %}
+           <li><a href="">provider area</a></li>
+           <li><a href="">log out</a></li>
+
+           {% elif request.user.is_visitor %}
+          <li><a href="">Visitor area </a></li>
+          <li><a href="">log out</a></li>
+
+          {% elif request.user.is_superuser %}
+          <li><a href="">admin site </a></li>
+          <li><a href="">log out</a></li>
+
+
+
+          {% endif %}
+
+          {% else %}
+          <li><a href="">Login</a></li>
+          <li><a href="">Singup</a></li>
+          {% endif %}
+
+          {% if request.user.is_superuser %}
+
+          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Manager site<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="">Admin</a></li>
+              <li><a href="">Clients</a></li>
+              <li><a href="">Employees</a></li>
+              <li><a href="">Providers </a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+          {% endif %}
+            </ul>
+          
+          
+          </li>
+        </ul>
+      
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
+
+
+
+
+
+
+
+
+
+

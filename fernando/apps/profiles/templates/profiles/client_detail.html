@@ -1,0 +1,97 @@
+{% extends 'users/base1.html' %}
+{% load static %}
+
+{% block javascript %}
+  
+{% endblock %}
+
+
+
+{% block style %}
+ 
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+  
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-7">
+    <div   style="background: rgba(186,186,186,1.00); margin-top: 10px " class=" row">
+  <div role="tabpanel">
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#home1" data-toggle="tab" role="tab" aria-controls="tab1">Tab 1</a></li>
+        <li role="presentation"><a href="#paneTwo1" data-toggle="tab" role="tab" aria-controls="tab2">Tab 2</a></li>
+        <li role="presentation" class="dropdown"><a href="#" id="tabDropOne1" class="dropdown-toggle" data-toggle="dropdown" role="tab" aria-controls="tab3" aria-haspopup="true" aria-expanded="false">Tab 3 Dropdown<span class="caret"></span></a>
+          <ul class="dropdown-menu" aria-labelledby="tabDropOne1">
+            <li><a href="#tabDropDownOne1" tabindex="-1" data-toggle="tab">Dropdown Link 1</a></li>
+            <li><a href="#tabDropDownTwo1" tabindex="-1" data-toggle="tab">Dropdown Link 2</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div id="tabContent1" class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="home1">
+         
+           
+
+ 
+          
+          
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="paneTwo1">
+          <p>Content 2</p>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="tabDropDownOne1">
+          <p>Dropdown content#1</p>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="tabDropDownTwo1">
+          <p>Dropdown content#2 </p>
+        </div>
+      </div>
+  </div>
+  </div>
+    
+  </div>
+  <div class="col-md-4">
+  <table   style="margin-top: 40px"  width="100%" border="1">
+  <tbody>
+    <tr>
+      <th width="18%" scope="col"><h2>{{entity.company_name}}</h2></th>
+      
+      
+    </tr>
+    <tr>
+      <td>PHISICAL ADDRESS : {{entitiy.address}}</td>
+      
+    </tr>
+    <tr>
+      <td>POSTAL ADDRESS: {{entity.postal_address}}</td>
+      
+    </tr>
+    <tr>
+      <td>PHONE1: {{entity.phone}}</td>
+      
+    </tr>
+    
+    <tr>
+      <td>EMAIL: {{entity.company_email}}</td>
+      
+    </tr>
+    
+  </tbody>
+</table></div>
+</div>
+
+  
+  
+  </div>
+  
+
+
+
+
+{% endblock %}

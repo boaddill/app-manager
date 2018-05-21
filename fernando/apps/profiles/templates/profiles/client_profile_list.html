@@ -1,0 +1,83 @@
+{% extends 'users/base1.html' %}
+{% load static %}
+
+{% block javascript %}
+<!-- <script src="{% static 'js/clients.js' %}"></script>  -->
+{% endblock %}
+
+
+
+{% block style %}
+ 
+
+{% endblock %}
+
+
+
+{% block content %}
+  
+<div style="width: 100%; float: right;">
+
+  <h1 class="page-header">CLIENTS</h1>
+
+
+<p>
+    <button style="float: left;" type="button" class="btn btn-primary js-create-client" data-url="{% url 'users:user_create' %}"  >
+      <span class="glyphicon glyphicon-plus"></span>
+      <a href="{% url 'users:user_list'   %}" style="text-decoration: none; color: white; ">Client detail</a>
+    </button>
+    <form class="" role="search">
+        
+          <input style="float: left; width: 200px; margin-left: 40px" name="q"  type="search" class="form-control"  id="buscador" placeholder="Search">
+       
+        <button style="margin-left: 20px"  type="submit"  class="btn btn-success">Submit</button>
+      </form>
+  </p>
+
+
+  <table class="table table-hover"" id="client-table">
+    <thead>
+      <tr>
+         <th>ID</th>
+         <th>COMPANY NAME</th>
+         <th>ADDRESS</th>
+         <th>CONTACT PHONE</th>
+         <th>COMPANY DIRECTOR</th>
+         <th>COMPANY EMAIL</th>
+        </tr>
+    </thead>
+    <tbody>
+      {% include 'profiles/partial_client_profile_list.html' %}
+    </tbody>
+  </table>
+
+  <div class="modal fade" id="modal-client">
+    <div class="modal-dialog">
+
+
+      <div class="modal-content">
+      </div>
+    </div>
+  </div>
+  {% if clients.has_other_pages %}
+  <ul class="pagination">
+    {% if clients.has_previous %}
+      <li><a href="?page={{ clients.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in clients.paginator.page_range %}
+      {% if clients.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if clients.has_next %}
+      <li><a href="?page={{ clients.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+{% endblock %}
