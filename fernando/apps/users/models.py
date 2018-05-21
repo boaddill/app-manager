@@ -69,7 +69,8 @@ class Profile_Client(models.Model):
     project           = models.ForeignKey(Project, on_delete=models.CASCADE ,blank=True,null=True, verbose_name="Project") 
     notes             = models.ForeignKey(Notes,on_delete=models.CASCADE ,blank=True,null=True ,verbose_name="Notes") 
     
-    
+    def __str__(self):
+        return    self.company_name
     
 
     
@@ -96,7 +97,7 @@ class Profile_Provider(models.Model):
     contact_person2   = models.CharField(max_length=30, blank=True)
 
     def __str__(self):
-        return   '%s %s' %(self.company_email, self.company_name)
+        return   self.company_name
 
 
     class Meta:        
