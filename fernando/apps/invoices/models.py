@@ -90,6 +90,37 @@ class Buying_Entry(models.Model):
 		return '%s %s %s'  %(self.date, self.item, self.total_price)
 
 
+class Time_Sheet(models.Model):
+
+	
+	date             = models.DateField('date',auto_now=False)
+	employee         = models.ForeignKey('users.Profile_Employee', on_delete=models.CASCADE , blank=True,null=True,verbose_name='Employe' )
+	units            = models.CharField("units", max_length=200, blank=True,null=True )
+	quantity		 = models.IntegerField(blank=True,null=True)
+	total_price      = models.FloatField(blank=True,null=True)
+	project          = models.ForeignKey('projects.Project',on_delete=models.CASCADE , blank=True,null=True,verbose_name='Project' )
+	task             = models.ForeignKey(Tasks, on_delete=models.CASCADE ,blank=True,null=True, verbose_name='Task' )
+	invoiced         = models.BooleanField(default=False,)
+	invoice          = models.ForeignKey(Invoice,default=None ,on_delete=models.CASCADE ,blank=True,null=True, verbose_name='Invoice' )
+	order            = models.ForeignKey(Order,default=None ,on_delete=models.CASCADE , blank=True,null=True,verbose_name='Order' )
+	docket           = models.ForeignKey(Docket,default=None ,on_delete=models.CASCADE , blank=True,null=True,verbose_name='Docket')
+
+	class Meta:        
+		verbose_name = "Time sheet"
+		verbose_name_plural = "Time Sheets"
+
+
+
+	def save(self):
+		self.total_price=self.quantity*self.employee.hour_price
+		super(Time_Sheet,self).save()
+
+	def __str__(self):
+
+		return self.employee
+
+
+
 
 	
 

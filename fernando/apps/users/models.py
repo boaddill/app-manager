@@ -113,6 +113,8 @@ class Profile_Employee(models.Model):
     employee_name     = models.CharField(max_length=30, blank=True, )
     employee_email    = models.EmailField(("email"),max_length=30, blank=True, default="email")
     position          = models.CharField(max_length=30, blank=True, default="position")
+    hour_price_int    = models.FloatField(blank=True,null=True)
+    hour_price        = models.FloatField(blank=True,null=True)
     start_date        = models.DateField(blank=True, null=True)
     address           = models.CharField(max_length=200, blank=True)
     city              = models.CharField(max_length=30, blank=True)
