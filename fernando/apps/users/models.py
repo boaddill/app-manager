@@ -113,18 +113,21 @@ class Profile_Employee(models.Model):
     employee_name     = models.CharField(max_length=30, blank=True, )
     employee_email    = models.EmailField(("email"),max_length=30, blank=True, default="email")
     position          = models.CharField(max_length=30, blank=True, default="position")
-    hour_price_int    = models.FloatField(blank=True,null=True)
-    hour_price        = models.FloatField(blank=True,null=True)
+    hour_price_int    = models.DecimalField(blank=True,null=True,decimal_places=2,max_digits=10)
+    hour_price        = models.DecimalField(blank=True,null=True,decimal_places=2,max_digits=10)
     start_date        = models.DateField(blank=True, null=True)
     address           = models.CharField(max_length=200, blank=True)
     city              = models.CharField(max_length=30, blank=True)
     location          = models.CharField(max_length=30, blank=True)
     postal_Code       = models.CharField(max_length=4, blank=True)
-    
+
 
     class Meta:        
         verbose_name = "Employee Profile"
         verbose_name_plural = "Employee Profiles"
+
+    def __str__(self):
+        return self.employee_name
 
 
 
