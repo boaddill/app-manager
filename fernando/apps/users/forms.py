@@ -9,11 +9,13 @@ class UserCreationForm(UserCreationForm):
 	EMPLOYEE = 2
 	PROVIDER = 3
 	ADMIN = 4
+	VISITOR = 5
 	USER_TYPES = (
 		(CLIENT, 'Client'),
         (EMPLOYEE, 'Employee'),
         (PROVIDER, 'Provider'),
         (ADMIN,'Admin'),
+        (VISITOR,'Visitor')
         )
 
 	user_type = forms.ChoiceField(choices = USER_TYPES, label=" User Type", initial='', widget=forms.Select(), required=True)

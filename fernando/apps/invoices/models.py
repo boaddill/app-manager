@@ -1,4 +1,4 @@
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save, post_delete,pre_save
 from django.dispatch import receiver
 from django.db import models
 import datetime
@@ -33,10 +33,17 @@ class Order(models.Model):
 	def save(self):
 		self.entries = self.buying_entry_set.all()
 		price_list=self.entries.values_list('total_price', flat=True)
-		suma=0
+
+		self.entries2 = self.time_sheet_set.all()
+		price_list2=self.entries2.values_list('total_price', flat=True)
+		suma_entries=0
+		suma_timesheets=0
 		for i in price_list:
-			suma += i
-		self.total_price=suma
+			suma_entries += i
+		for i in price_list2:
+			suma_timesheets += i
+
+		self.total_price=suma_entries+suma_timesheets
 		super(Order,self).save()
 
 class Docket(models.Model):
@@ -108,7 +115,7 @@ class Buying_Entry(models.Model):
 class Time_Sheet(models.Model):
 
 	date             = models.DateField('date',auto_now=False)
-	employee         = models.ForeignKey('users.Profile_Employee', on_delete=models.CASCADE , blank=True,null=True,verbose_name='Employe' )
+	employee         = models.ForeignKey('users.Profile_Employee', on_delete=models.CASCADE , blank=True,null=True,verbose_name='Employee' )
 	units            = models.CharField("units", max_length=200, blank=True,null=True,default='hours' )
 	quantity		 = models.DecimalField(blank=True,null=True,decimal_places=2,max_digits=5)
 	coments          = models.TextField("coments", max_length=400, blank=True,null=True,default='coments' )
@@ -135,68 +142,63 @@ class Time_Sheet(models.Model):
 #update Docket class
 @receiver(post_save, sender=Buying_Entry)
 def save_Docket(sender,created, instance,**kwargs):
-	try:
-		obj=instance.docket
+	obj=instance.docket
+	obj1=instance.order
+	if obj:
 		obj.save()
-	except:
-		pass
+	else:
+		query =Docket.objects.all()
+		for obj in query:
+			obj.save()
+	if obj1:
+		obj1.save()
+	else:
+		query =Order.objects.all()
+		for obj in query:
+			obj.save()
+
 
 @receiver(post_delete, sender=Buying_Entry)
 def delete_Docket(sender, instance,**kwargs):
-	try:
-		obj=instance.docket
-		obj.save()	
-	except:
-		pass
 	
-#update order class
-@receiver(post_save, sender=Buying_Entry)
-def save_order(sender,created, instance,**kwargs):
-		try:
-			obj=instance.order
-			obj.save()
-		except:
-			pass
-
-@receiver(post_delete, sender=Buying_Entry)
-def delete_order(sender, instance,**kwargs):
-	try:
-		obj=instance.order
+	obj=instance.docket
+	obj2=instance.order
+	if obj:
 		obj.save()
-	except:
-		pass
+	if obj2:
+		obj2.save()
 
+	
 @receiver(post_save, sender=Time_Sheet)
-def save_order(sender,created, instance,**kwargs):
-		try:
-			obj=instance.order
+def timesheet_save_Docket(sender,created, instance,**kwargs):
+	obj=instance.docket
+	obj1=instance.order
+	if obj:
+		obj.save()
+	else:
+		query =Docket.objects.all()
+		for obj in query:
 			obj.save()
-		except:
-			pass
+	if obj1:
+		obj1.save()
+	else:
+		query =Order.objects.all()
+		for obj in query:
+			obj.save()
+
 
 @receiver(post_delete, sender=Time_Sheet)
-def delete_order(sender, instance,**kwargs):
-	try:
-		obj=instance.order
+def timesheet_delete_Docket(sender, instance,**kwargs):
+	
+	obj=instance.docket
+	obj2=instance.order
+	if obj:
 		obj.save()
-	except:
-		pass
+	if obj2:
+		obj2.save()
 
-@receiver(post_save, sender=Time_Sheet)
-def save_order(sender,created, instance,**kwargs):
-		try:
-			obj=instance.docket
-			obj.save()
-		except:
-			pass
+	
 
-@receiver(post_delete, sender=Time_Sheet)
-def delete_order(sender, instance,**kwargs):
-	try:
-		obj=instance.docket
-		obj.save()
-	except:
-		pass
 
 
 

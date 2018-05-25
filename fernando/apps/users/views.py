@@ -61,6 +61,9 @@ def save_user_form(request, form, template_name, action,id):
                 user.is_superuser=True
                 user.is_visitor=False
                 user.save()
+            
+
+
 
 
             data['form_is_valid'] = True
