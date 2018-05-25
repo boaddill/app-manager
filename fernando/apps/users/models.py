@@ -14,15 +14,6 @@ from apps.projects.models import Project
 
 
 
-class Contacts(models.Model):
-    contact_name      = models.CharField(max_length=30, blank=True, )
-
-
-
-
-
-class Notes(models.Model):
-    title             =models.CharField(max_length=30, blank=True, )
 
 
 
@@ -64,11 +55,8 @@ class Profile_Client(models.Model):
     gst_registered    = models.BooleanField(default=True)
     company_director  = models.CharField(max_length=30, blank=True, default="Introduce company director")
     company_email     = models.EmailField(_('email address'),blank=True)
-    contacts          = models.ForeignKey( Contacts, on_delete=models.CASCADE ,blank=True,null=True, verbose_name="Contacts") 
-    quotes            = models.ForeignKey(Quote,on_delete=models.CASCADE, blank=True,null=True ,verbose_name="Contacts")
     project           = models.ForeignKey(Project, on_delete=models.CASCADE ,blank=True,null=True, verbose_name="Project") 
-    notes             = models.ForeignKey(Notes,on_delete=models.CASCADE ,blank=True,null=True ,verbose_name="Notes") 
-    
+   
     def __str__(self):
         return    self.company_name
     
