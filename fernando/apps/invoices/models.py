@@ -149,6 +149,7 @@ def my_signal_handler(sender,instance, **kwargs):
 	
 
 
+<<<<<<< HEAD
 #update Docket class
 # @receiver(post_save, sender=Buying_Entry)
 # def save_Docket(sender,created, instance,**kwargs):
@@ -157,6 +158,25 @@ def my_signal_handler(sender,instance, **kwargs):
 # 	obj.save()
 # 	obj1.save()
 	
+=======
+#signals update Docket class
+@receiver(post_save, sender=Buying_Entry)
+def save_Docket(sender,created, instance,**kwargs):
+	obj=instance.docket
+	obj1=instance.order
+	if obj:
+		obj.save()
+	else:
+		query =Docket.objects.all()
+		for obj in query:
+			obj.save()
+	if obj1:
+		obj1.save()
+	else:
+		query =Order.objects.all()
+		for obj in query:
+			obj.save()
+>>>>>>> solucion
 
 
 @receiver(post_delete, sender=Buying_Entry)
