@@ -143,6 +143,11 @@ class Time_Sheet(models.Model):
 
 	
 
+<<<<<<< HEAD
+=======
+
+#signals update Docket class///////////
+>>>>>>> solucion
 @receiver(post_save, sender=Buying_Entry)
 def save_Docket(sender,created, instance,**kwargs):
 	obj=instance.docket
