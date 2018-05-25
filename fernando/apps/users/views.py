@@ -13,6 +13,8 @@ def home(request):
     context = {}
     return render(request, "users/home.html" , context)
 
+    
+
 @superuser
 def user_list(request):
     action=""
@@ -40,32 +42,37 @@ def save_user_form(request, form, template_name, action,id):
         if form.is_valid():
             user_type=form.cleaned_data['user_type']
             email=form.cleaned_data['email']
+
             form.save()
             if user_type=='1':
                 user=User.objects.get(email=email)
                 user.is_client=True
                 user.is_visitor=False
+                user.is_employee=False
+                user.is_provider=False
                 user.save()
             if user_type=='2':
                 user=User.objects.get(email=email)
                 user.is_employee=True
                 user.is_visitor=False
+                user.is_provider=False
+                user.is_client=False
                 user.save()
             if user_type=='3':
                 user=User.objects.get(email=email)
                 user.is_provider=True
                 user.is_visitor=False
+                user.is_client=False
+                user.is_employee=False
                 user.save()
             if user_type=='4':
                 user=User.objects.get(email=email)
                 user.is_superuser=True
                 user.is_visitor=False
+                user.is_client=False
+                user.is_employee=False
+                user.is_provider=True
                 user.save()
-            
-
-
-
-
             data['form_is_valid'] = True
             if action == 'create':
                 users = User.objects.all().order_by('id').reverse()[:1]
@@ -77,13 +84,8 @@ def save_user_form(request, form, template_name, action,id):
                 user = User.objects.filter(email=email)
                 data['action']='update'
                 data['html_user_list'] = render_to_string('users/partial_user_list.html', {'users': user})
-
-
         else:
             data['form_is_valid'] = False
-
-    
-
     context = {'form': form}
     data['html_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)

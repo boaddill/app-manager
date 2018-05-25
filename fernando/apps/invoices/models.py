@@ -25,7 +25,9 @@ class Order(models.Model):
 	made_by          = models.ForeignKey('users.Profile_Employee', on_delete=models.CASCADE , blank=True,null=True,verbose_name='Made by' )
 	provider         = models.ForeignKey('users.Profile_Provider' ,on_delete=models.CASCADE ,blank=True,null=True, verbose_name='Provider')
 	project          = models.ForeignKey('projects.Project',on_delete=models.CASCADE , blank=True,null=True,verbose_name='Project' )
+	Task             = models.ForeignKey(Tasks,on_delete=models.CASCADE , blank=True,null=True,verbose_name='Task' )
 	total_price      = models.DecimalField(blank=True,null=True,decimal_places=2,max_digits=10)
+
 
 	def __str__(self):
 		return self.code
