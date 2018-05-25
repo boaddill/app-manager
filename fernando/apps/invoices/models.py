@@ -1,7 +1,8 @@
-from django.db.models.signals import post_save, post_delete,pre_save
+from django.db.models.signals import  post_delete
 from django.dispatch import receiver
 from django.db import models
 import datetime
+from .signals.signals import my_signal
 
 
 class Tasks (models.Model):
@@ -105,12 +106,15 @@ class Buying_Entry(models.Model):
 		verbose_name_plural = "Entries"
 
 	def save(self):
+		my_signal.send(sender=Buying_Entry,instance=self.docket, )
 		self.total_price=self.quantity*self.item.item_price
 		super(Buying_Entry,self).save()
 
-	def __str__(self):
 
-		return '%s %s %s'  %(self.date, self.item, self.total_price)
+	# def __str__(self):
+	# 	pass
+
+		# return '%s %s %s'  %(self.date, self.item, self.total_price)
 
 class Time_Sheet(models.Model):
 
@@ -132,70 +136,53 @@ class Time_Sheet(models.Model):
 		verbose_name_plural = "Time Sheets"
 
 	def save(self):
+		my_signal.send(sender=Time_Sheet,instance=self)
 		self.total_price=self.quantity*self.employee.hour_price
 		super(Time_Sheet,self).save()
 
 	
-
+@receiver(my_signal,sender=Buying_Entry)
+def my_signal_handler(sender,instance, **kwargs):
+	print(instance)
+	
+	# obj.save()
+	
 
 
 #update Docket class
-@receiver(post_save, sender=Buying_Entry)
-def save_Docket(sender,created, instance,**kwargs):
-	obj=instance.docket
-	obj1=instance.order
-	if obj:
-		obj.save()
-	else:
-		query =Docket.objects.all()
-		for obj in query:
-			obj.save()
-	if obj1:
-		obj1.save()
-	else:
-		query =Order.objects.all()
-		for obj in query:
-			obj.save()
+# @receiver(post_save, sender=Buying_Entry)
+# def save_Docket(sender,created, instance,**kwargs):
+# 	obj=instance.docket
+# 	obj1=instance.order
+# 	obj.save()
+# 	obj1.save()
+	
 
 
 @receiver(post_delete, sender=Buying_Entry)
 def delete_Docket(sender, instance,**kwargs):
-	
+	print("hola")
 	obj=instance.docket
 	obj2=instance.order
-	if obj:
-		obj.save()
-	if obj2:
-		obj2.save()
+	obj.save()
+	obj2.save()
 
 	
-@receiver(post_save, sender=Time_Sheet)
-def timesheet_save_Docket(sender,created, instance,**kwargs):
-	obj=instance.docket
-	obj1=instance.order
-	if obj:
-		obj.save()
-	else:
-		query =Docket.objects.all()
-		for obj in query:
-			obj.save()
-	if obj1:
-		obj1.save()
-	else:
-		query =Order.objects.all()
-		for obj in query:
-			obj.save()
+# @receiver(post_save, sender=Time_Sheet)
+# def timesheet_save_Docket(sender,created, instance,**kwargs):
+# 	obj=instance.docket
+# 	obj1=instance.order
+# 	obj.save()
+# 	obj1.save()
 
 
 @receiver(post_delete, sender=Time_Sheet)
 def timesheet_delete_Docket(sender, instance,**kwargs):
-	
+	print("hola")
 	obj=instance.docket
 	obj2=instance.order
-	if obj:
-		obj.save()
-	if obj2:
-		obj2.save()
+	obj.save()
+	obj2.save()
 
 	
 
