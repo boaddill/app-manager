@@ -78,6 +78,7 @@ class Chapter (models.Model):
 class Task (models.Model):
 	code                 = models.CharField("Code", max_length=200, blank=True,null=True )
 	task_name            = models.CharField("Task name ", max_length=200, blank=True,null=True )
+	
 	description          = models.TextField("coments", max_length=400, blank=True,null=True,default='coments')
 	
 	def __str__(self):
