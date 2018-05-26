@@ -13,10 +13,13 @@ $("#pepe").mouseover(function () {
           if (data.is_taken==false) {
             $("#pepe").prop('disabled', true);
             alert("A user with this username does not exists.");
-            prop('disabled', false);$("#pepe").
+            $("#pepe").prop('disabled', false);
 
-            }
+          }
         }
+            
+        }
+      
       });
 
     });

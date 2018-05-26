@@ -7,7 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from apps.users.decorators import superuser,is_client
 from django.contrib.auth.decorators import login_required
 from .models import Item
-
+from .forms import ItemCreationForm
 
 def item_view(request):
 	item=Item.objects.all()
@@ -33,14 +33,12 @@ def save_item_form(request, form, template_name, action,id):
     if request.method == 'POST':
         if form.is_valid():
             form.save()
-            
             data['form_is_valid'] = True
             if action == 'create':
-                items = Items.objects.all().order_by('id').reverse()[:1]
+                items = Item.objects.all().order_by('id')[:1]
                 data['action']='create'
                 data['html_item_list'] = render_to_string('items/partial_item_list.html', {
                     'items': items})
-
             if action == 'update':
                 item = Item.objects.filter(id=id)
                 data['action']='update'
@@ -60,7 +58,7 @@ def item_create(request):
 	else:
 		form = ItemCreationForm()
 	
-	return save_user_form(request, form, 'items/partial_item_form.html','create',id)
+	return save_item_form(request, form, 'items/partial_item_create.html','create',id)
 
 
 @superuser

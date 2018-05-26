@@ -13,8 +13,6 @@ def home(request):
     context = {}
     return render(request, "users/home.html" , context)
 
-    
-
 @superuser
 def user_list(request):
     action=""
@@ -32,7 +30,6 @@ def user_list(request):
     except EmptyPage:
         users = paginator.page(paginator.num_pages)
     return render(request, 'users/client_list.html', {'users': users, 'action':action})
-
 
 
 @superuser
@@ -102,7 +99,6 @@ def user_create(request):
 	return save_user_form(request, form, 'users/partial_user_create.html','create',id)
 
 
-
 @superuser
 def user_update(request, id):
     user = get_object_or_404(User, id=id)
@@ -111,7 +107,6 @@ def user_update(request, id):
     else:
         form = UserCreationForm(instance=user)
     return save_user_form(request, form, 'users/partial_user_update.html','update' ,id)
-
 
 
 @superuser
@@ -134,6 +129,7 @@ def user_delete(request, id):
             request=request,
         )
     return JsonResponse(data)
+
 
 @superuser
 def user_filter_list(request):

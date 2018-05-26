@@ -2,10 +2,10 @@ from django.forms import ModelForm
 from .models import Item
 from django import forms
 
-class ItemCreationForm(UserCreationForm):
+class ItemCreationForm(ModelForm):
 
 	
 
 	class Meta:
-		model = User
+		model = Item
 		fields = ('__all__')

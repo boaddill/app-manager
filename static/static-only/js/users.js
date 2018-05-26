@@ -55,7 +55,7 @@ $(function () {
   /* Binding */
 
   // Create book
-  $(".js-create-book").click(loadForm);
+  $(".js-create").click(loadForm);
   $("#modal-book").on("submit", ".js-book-create-form", saveForm);
 
   // Update book
@@ -65,21 +65,21 @@ $(function () {
   $("#book-table").on("click", ".js-delete-book", loadForm);
   $("#modal-book").on("submit", ".js-book-delete-form", saveForm);
 
-
-  $("#buscador")
+ $("#buscador")
         .val('')
         .focus()
         .keyup(function () {
 
     var search =$("#buscador").val();
+    var url =$("#buscador")
     $.ajax({
-      url: '/user_filter_list',
+      url: url.attr('data-url'),
       data: { 'q': search },
       type: 'get',
       dataType: 'json',
       success: function (data) {
         if (data) {
-          $("#book-table tbody").html(data.html_user_list);
+          $("#book-table tbody").html(data.html);
           $( ".pagination" ).remove();
           $( "td " ).addClass("table-success");
 
@@ -93,6 +93,7 @@ $(function () {
 
   
 });
+  
 
 
 
