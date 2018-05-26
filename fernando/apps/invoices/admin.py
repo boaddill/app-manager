@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Item,Buying_Entry,Docket,Order,Time_Sheet
 
 class AdminItem(admin.ModelAdmin):
-	list_display = ['item_name','unit','item_price','provider']
+	list_display = ['item_name','unit','provider']
 	#form = InvoiceForm
 	class Meta:
 		model =  Item

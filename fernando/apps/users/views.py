@@ -32,7 +32,6 @@ def user_list(request):
     return render(request, 'users/client_list.html', {'users': users, 'action':action})
 
 
-
 @superuser
 def save_user_form(request, form, template_name, action,id):
     data = dict()
@@ -40,32 +39,37 @@ def save_user_form(request, form, template_name, action,id):
         if form.is_valid():
             user_type=form.cleaned_data['user_type']
             email=form.cleaned_data['email']
+
             form.save()
             if user_type=='1':
                 user=User.objects.get(email=email)
                 user.is_client=True
                 user.is_visitor=False
+                user.is_employee=False
+                user.is_provider=False
                 user.save()
             if user_type=='2':
                 user=User.objects.get(email=email)
                 user.is_employee=True
                 user.is_visitor=False
+                user.is_provider=False
+                user.is_client=False
                 user.save()
             if user_type=='3':
                 user=User.objects.get(email=email)
                 user.is_provider=True
                 user.is_visitor=False
+                user.is_client=False
+                user.is_employee=False
                 user.save()
             if user_type=='4':
                 user=User.objects.get(email=email)
                 user.is_superuser=True
                 user.is_visitor=False
+                user.is_client=False
+                user.is_employee=False
+                user.is_provider=True
                 user.save()
-            
-
-
-
-
             data['form_is_valid'] = True
             if action == 'create':
                 users = User.objects.all().order_by('id').reverse()[:1]
@@ -77,13 +81,8 @@ def save_user_form(request, form, template_name, action,id):
                 user = User.objects.filter(email=email)
                 data['action']='update'
                 data['html_user_list'] = render_to_string('users/partial_user_list.html', {'users': user})
-
-
         else:
             data['form_is_valid'] = False
-
-    
-
     context = {'form': form}
     data['html_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)
@@ -100,7 +99,6 @@ def user_create(request):
 	return save_user_form(request, form, 'users/partial_user_create.html','create',id)
 
 
-
 @superuser
 def user_update(request, id):
     user = get_object_or_404(User, id=id)
@@ -109,7 +107,6 @@ def user_update(request, id):
     else:
         form = UserCreationForm(instance=user)
     return save_user_form(request, form, 'users/partial_user_update.html','update' ,id)
-
 
 
 @superuser
@@ -132,6 +129,7 @@ def user_delete(request, id):
             request=request,
         )
     return JsonResponse(data)
+
 
 @superuser
 def user_filter_list(request):

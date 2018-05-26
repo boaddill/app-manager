@@ -1,7 +1,6 @@
 
 from __future__ import unicode_literals
 from django.db import models
-from django.db import models
 from django.core.mail import send_mail
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
@@ -55,8 +54,7 @@ class Profile_Client(models.Model):
     gst_registered    = models.BooleanField(default=True)
     company_director  = models.CharField(max_length=30, blank=True, default="Introduce company director")
     company_email     = models.EmailField(_('email address'),blank=True)
-    project           = models.ForeignKey(Project, on_delete=models.CASCADE ,blank=True,null=True, verbose_name="Project") 
-   
+    
     def __str__(self):
         return    self.company_name
     

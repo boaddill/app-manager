@@ -55,7 +55,7 @@ $(function () {
   /* Binding */
 
   // Create book
-  $(".js-create-book").click(loadForm);
+  $(".js-create").click(loadForm);
   $("#modal-book").on("submit", ".js-book-create-form", saveForm);
 
   // Update book
