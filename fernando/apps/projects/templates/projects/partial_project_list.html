@@ -1,0 +1,30 @@
+{% load static %}
+{% for project in projects %}
+        <tr>
+
+           <td>{{ project.project_name }}</td>
+           <td>{{ project.project_number }}</td>
+           <td>{{ project.project_address}}</td>
+           <td>{{ project.start_date}}</td>
+           <td>{{ project.project_manager}}</td>
+           <td>{{ project.client}}</td>
+           <td>{{ project.state}}</td>
+           <td>
+      <button type="button"
+              class="btn btn-warning btn-sm js-update-book"
+              data-url="">
+        <span class="glyphicon glyphicon-pencil"></span> Edit
+      </button>
+      <button type="button"
+              class="btn btn-danger btn-sm js-delete-book"
+              data-url="">
+        <span class="glyphicon glyphicon-trash"></span> Delete
+      </button>
+    </td>
+    </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7" class="text-center bg-warning">No users</td>
+        </tr>
+      {% endfor %}
+ 

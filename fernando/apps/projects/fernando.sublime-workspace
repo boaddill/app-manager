@@ -1,0 +1,883 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"ob",
+				"objects"
+			],
+			[
+				"scop",
+				"scope_quantity"
+			],
+			[
+				"chap",
+				"chapter"
+			],
+			[
+				"cha",
+				"chapter_name"
+			],
+			[
+				"pr",
+				"project"
+			],
+			[
+				"Chapter",
+				"chapter_name"
+			],
+			[
+				"chapter",
+				"chapter_name"
+			],
+			[
+				"fo",
+				"font-size\tproperty"
+			],
+			[
+				"mar",
+				"margin\tproperty"
+			],
+			[
+				"query",
+				"queryset"
+			],
+			[
+				"Pro",
+				"Project"
+			],
+			[
+				"me",
+				"Meassurement"
+			],
+			[
+				"in",
+				"instance"
+			],
+			[
+				"Sc",
+				"Scope_Meassurements"
+			],
+			[
+				"P",
+				"Project"
+			],
+			[
+				"Time",
+				"Time_Sheet"
+			],
+			[
+				"co",
+				"contacts"
+			],
+			[
+				"con",
+				"contact_name"
+			],
+			[
+				"d",
+				"docket"
+			],
+			[
+				"s",
+				"self"
+			],
+			[
+				"com",
+				"company_email"
+			],
+			[
+				"im",
+				"image\tparameter"
+			],
+			[
+				"th",
+				"this\tkeyword"
+			],
+			[
+				"ret",
+				"return\tkeyword"
+			],
+			[
+				"inv",
+				"Invoice"
+			],
+			[
+				"a",
+				"auto\tmargin"
+			],
+			[
+				"ma",
+				"margin\tproperty"
+			],
+			[
+				"m",
+				"margin\tproperty"
+			],
+			[
+				"mod",
+				"models"
+			],
+			[
+				"for",
+				"ForeignKey"
+			],
+			[
+				"pro",
+				"projects"
+			],
+			[
+				"M",
+				"Model"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"st",
+				"style\tAttr"
+			],
+			[
+				"q",
+				"query"
+			],
+			[
+				"us",
+				"user"
+			],
+			[
+				"user",
+				"user_type"
+			],
+			[
+				"cl",
+				"cleaned_data"
+			],
+			[
+				"ac",
+				"action\tAttr"
+			],
+			[
+				"margi",
+				"margin-top"
+			],
+			[
+				"http",
+				"HttpResponse"
+			],
+			[
+				"dat",
+				"data_json"
+			],
+			[
+				"da",
+				"data_json"
+			],
+			[
+				"re",
+				"results"
+			],
+			[
+				"o",
+				"objects"
+			],
+			[
+				"out",
+				"output2"
+			],
+			[
+				"clie",
+				"client_name"
+			],
+			[
+				"clien",
+				"client_list"
+			],
+			[
+				"posit",
+				"position_name"
+			],
+			[
+				"de",
+				"default"
+			],
+			[
+				"mo",
+				"models"
+			],
+			[
+				"ch",
+				"CharField"
+			],
+			[
+				"n",
+				"null"
+			],
+			[
+				"mode",
+				"Model"
+			],
+			[
+				"Pr",
+				"Project_Manager"
+			],
+			[
+				"i",
+				"IntegerField"
+			],
+			[
+				"max",
+				"max_length"
+			],
+			[
+				"cli",
+				"Cliente"
+			],
+			[
+				"C",
+				"Client"
+			],
+			[
+				"w",
+				"WAITING_FOR_APROVAL"
+			],
+			[
+				"c",
+				"CharField"
+			],
+			[
+				"model",
+				"models"
+			],
+			[
+				"h",
+				"h1\tTag"
+			],
+			[
+				"f",
+				"forms"
+			],
+			[
+				"li",
+				"listabotones"
+			],
+			[
+				"tex",
+				"textvariable"
+			],
+			[
+				"t",
+				"Tkinter"
+			],
+			[
+				"ve",
+				"ventana_principal"
+			],
+			[
+				"I",
+				"item"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "views.py",
+			"settings":
+			{
+				"buffer_size": 1135,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "models.py",
+			"settings":
+			{
+				"buffer_size": 11926,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/models.py",
+			"settings":
+			{
+				"buffer_size": 7500,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "admin.py",
+			"settings":
+			{
+				"buffer_size": 2743,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "project_seeder.py",
+			"settings":
+			{
+				"buffer_size": 939,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"pa",
+				"SublimeREPL: ABCL"
+			],
+			[
+				"python f",
+				"User: Python Flake8 Lint"
+			],
+			[
+				"python p",
+				"User: Python PEP8 Autoformat"
+			],
+			[
+				"python pe",
+				"User: Python PEP8 Autoformat"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"rep",
+				"SublimeREPL: Python"
+			],
+			[
+				"rp",
+				"SublimeREPL: Python"
+			],
+			[
+				"pythonre",
+				"SublimeREPL: Python - RUN current file"
+			],
+			[
+				"python pep",
+				"User: Python PEP8 Autoformat"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"pyth",
+				"Build With: Python3"
+			],
+			[
+				"python",
+				"Build With: Python"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Remove Package"
+			]
+		],
+		"width": 412.0
+	},
+	"console":
+	{
+		"height": 130.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/fernandogarciafonseca/Desktop/fernando-django",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/migrations",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/users",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/users/templates",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/fernando",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/static",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/js"
+	],
+	"file_history":
+	[
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/partial_project_list.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/forms.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/project_list.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/forms.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/models.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/urls.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/fernando/urls.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/templates/nav_bar2.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/users/templates/users/partial_user_list.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/admin.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/lib/python3.6/site-packages/django/db/models/deletion.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/profiles/admin.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/admin.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/fernando/settings.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/templates/items/base1.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/templates/items/item_list.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/templates/items/partial_item_list.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/views.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/js/users.js",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/users/templates/users/base1.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/users/templates/users/client_list.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/templates/items/partial_item_create.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/templates/items/partial_item_form.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/forms.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/urls.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/models.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/users/views.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static-only/js/users.js",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/signals/signals.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/__init__.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/apps.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/signals/handlers.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/profiles/models.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/profiles/apps.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/profiles/__init__.py",
+		"/Users/fernandogarciafonseca/Desktop/fer.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/users/models.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/js/users2.js",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/templates/entry/entry_create.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/static/static/js/users2.js",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/js/users1.js",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/templates/users/client_list.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/users/admin.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/lib/python3.6/site-packages/pip/_internal/commands/search.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/static/static/js/users.js",
+		"/Users/fernandogarciafonseca/Desktop/Angular/nggallery/src/app/service/image.service.ts",
+		"/Users/fernandogarciafonseca/Desktop/Angular/nggallery/src/app/gallery/image-list/image.component.ts",
+		"/Users/fernandogarciafonseca/Desktop/Angular/nggallery/src/app/gallery/image-list/image-list.component.ts",
+		"/Users/fernandogarciafonseca/Desktop/Angular/nggallery/src/app/gallery/image-list/image.component.html",
+		"/Users/fernandogarciafonseca/Desktop/Angular/nggallery/src/app/models/image.ts",
+		"/Users/fernandogarciafonseca/Desktop/Angular/nggallery/src/app/gallery/image-list/image-list.component.html",
+		"/Users/fernandogarciafonseca/Desktop/Angular/nggallery/src/app/app.component.html",
+		"/Users/fernandogarciafonseca/Desktop/Angular/nggallery/src/app/gallery/gallery.component.html",
+		"/Users/fernandogarciafonseca/angular-tour-of-heroes/README.md",
+		"/Users/fernandogarciafonseca/angular-tour-of-heroes/src/app/app.component.ts",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/templates/nav_bar.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/templates/base.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/templates/registration/password_reset_complete.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/static/static/js/users1.js",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/templates/registration/password_reset_confirm.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/myproject/urls.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/templates/users/partial_user_create.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/templates/registration/password_reset_done.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/templates/registration/password_reset_form.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/templates/registration/password_reset_email.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/templates/users/login.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/templates/nav_bar2.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/templates/registration/password_reset_subject.txt",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/views.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/templates/users/partial_user_list.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/urls.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/templates/registration/password_reset_form.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/myproject/settings.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/templates/users/home.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/templates/users/partial_user_form.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/static/static/js/users_check.js",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/models.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/profiles/views.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/invoices/models.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/projects/models.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/templates/users/base1.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/profiles/templates/profiles/client_detail.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/profiles/models.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/templates/users/partial_user_update.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/document_manager/models.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/quotes/models.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/profiles/urls.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/profiles/templates/profiles/partial_client_profile_list.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/decorators.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/profiles/templates/profiles/client_profile_list.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/profiles/forms.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/static/static/js/clients.js",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/profiles/templates/profiles/urls.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/profiles/templates/profiles/client_profile_detail.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/static/static/css/mystyle.css",
+		"/Users/fernandogarciafonseca/Desktop/django-project/static/static/css/bootstrap.css",
+		"/Users/fernandogarciafonseca/Desktop/django-project/static/static/css/styles.css",
+		"/Users/fernandogarciafonseca/Desktop/django-project/static/static/css/bootstrap-3.3.7.css",
+		"/Users/fernandogarciafonseca/Desktop/django-project/static/static/js/bootstrap.js",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/templates/users/partial_user_delete.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/forms.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/static/static/js/script.js",
+		"/Users/fernandogarciafonseca/Desktop/django-project/lib/python3.6/site-packages/django/views/templates/technical_500.html",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/templates/users/forms.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/admin.py",
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/managers.py",
+		"/Users/fernandogarciafonseca/Desktop/proyecto_django/mi_proyecto/my_project/my_project/settings.py",
+		"/Users/fernandogarciafonseca/Desktop/django/django/strata/strata/settings.py",
+		"/Users/fernandogarciafonseca/Desktop/django/django/strata/organizer/urls.py",
+		"/Users/fernandogarciafonseca/Desktop/django/django/strata/strata/urls.py",
+		"/Users/fernandogarciafonseca/Desktop/django/django/strata/organizer/templates/organizer/index.html",
+		"/Users/fernandogarciafonseca/Desktop/django/django/strata/organizer/views.py",
+		"/Users/fernandogarciafonseca/Desktop/django/django/strata/organizer/static/css/bootstrap.css",
+		"/Users/fernandogarciafonseca/Desktop/django/django/strata/organizer/templates/organizer/organizer.html",
+		"/Users/fernandogarciafonseca/Desktop/Curso_django/curso_django/suorganicer/suorganicer/urls.py",
+		"/Users/fernandogarciafonseca/Desktop/Curso_django/curso_django/suorganicer/suorganicer/settings.py",
+		"/Users/fernandogarciafonseca/Desktop/Curso_django/curso_django/suorganicer/organicer/admin.py",
+		"/Users/fernandogarciafonseca/Desktop/Curso_django/curso_django/suorganicer/organicer/views.py",
+		"/Users/fernandogarciafonseca/Desktop/Curso_django/curso_django/suorganicer/organicer/models.py",
+		"/Users/fernandogarciafonseca/Desktop/Curso_django/curso_django/suorganicer/organicer/urls.py",
+		"/Users/fernandogarciafonseca/Desktop/Curso_django/curso_django/suorganicer/organicer/fer.py",
+		"/Users/fernandogarciafonseca/Desktop/Curso_django/curso_django/suorganicer/blog/models.py",
+		"/Users/fernandogarciafonseca/Desktop/Curso_django/curso_django/suorganicer/helloworld/views.py",
+		"/Users/fernandogarciafonseca/Desktop/Curso_django/curso_django/suorganicer/helloworld/urls.py",
+		"/Users/fernandogarciafonseca/Desktop/Curso_django/urls.py",
+		"/Users/fernandogarciafonseca/Desktop/Curso_django/curso_django/suorganicer/organicer/apps.py",
+		"/Users/fernandogarciafonseca/Desktop/Curso_django/curso_django/suorganicer/organicer/tests.py",
+		"/Users/fernandogarciafonseca/Desktop/tryTen/src/profiles/admin.py"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "views.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1135,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								997,
+								997
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "models.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11926,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3185,
+								3185
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 580.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/models.py",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 7500,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1714,
+								1714
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 219.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "admin.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2743,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1550,
+								1550
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 484.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "project_seeder.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 939,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								923,
+								923
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 36.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.doc":
+	{
+		"height": 0.0
+	},
+	"output.exec":
+	{
+		"height": 256.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 102.0
+	},
+	"pinned_build_system": "Packages/Python 3/Python3.sublime-build",
+	"project": "fernando.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": false,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 232.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
