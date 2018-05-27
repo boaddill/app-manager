@@ -13,6 +13,7 @@ urlpatterns = [
     path('', include('apps.users.urls')),
     path('', include('apps.profiles.urls')),
     path('', include('apps.invoices.urls')),
+    path('', include('apps.projects.urls')),
     path('accounts/', include('django.contrib.auth.urls'))
     
 

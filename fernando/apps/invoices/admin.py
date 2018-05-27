@@ -33,7 +33,7 @@ class AdminOrder(admin.ModelAdmin):
 admin.site.register(Order, AdminOrder)
 
 class AdminTime_Sheet(admin.ModelAdmin):
-	list_display = [ 'date', 'employee', 'project', 'task', 'quantity','total_price', ]
+	list_display = [ 'date', 'employee', 'project', 'quantity','total_price', ]
 	#form = InvoiceForm
 	class Meta:
 		model = Time_Sheet

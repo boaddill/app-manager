@@ -1,0 +1,124 @@
+{% extends 'users/base1.html' %}
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static 'js/users.js' %}"></script>
+ 
+{% endblock %}
+
+
+
+{% block style %}
+ <link rel="stylesheet" type="text/css" href="{% static 'css/mystyle.css' %}">
+ <style type="text/css">
+
+ li {
+  
+  
+  display: inline-block;
+  margin-right: 50px;
+  font-size: 1.3em
+}
+
+ul {
+  list-style: none;
+  padding: 0px
+
+}
+ #main-menu{
+  margin-bottom: 30px;
+  margin-top: 10px
+
+
+ }
+</style>
+ 
+
+{% endblock %}
+
+
+
+{% block content %}
+  
+<div style="width: 95%; ">
+  <div id="main-menu">
+    <ul>
+      <li>Home</li>
+      <li>Clients </li>
+      <li>Employes</li>
+      <li>Providers</li>
+      <li>Financial</li>
+      <li>Timesheet</li>
+    </ul>
+  </div>  
+
+
+  
+
+  <h4 class="">PROJECT LIST</h4>
+
+
+<p>
+    <button style="float: left;" type="button" class="btn btn-primary js-create" data-url=" "  >
+      <span class="glyphicon glyphicon-plus"></span>
+      New Project
+    </button>
+    <form class="" role="search">
+        
+          <input style="float: left; width: 200px; margin-left: 40px" name="q"  type="search" class="form-control"  id="buscador" placeholder="Search">
+       
+        <button style="margin-left: 20px"  type="submit"  class="btn btn-primary">Submit</button>
+      </form>
+  </p>
+
+
+  <table class="table table-hover" id="book-table">
+    <thead>
+      <tr>
+        
+        
+        <th>PROJECT NAME</th>
+        <th>PROJECT NUMBER</th>
+        <th>PROJECT ADDRESS</th>
+        <th>START DATE</th>
+        <th>PROJECT MANAGER</th>
+        <th>CLIENT</th>
+        <th>STATE</th>
+        </tr>
+    </thead>
+
+    <tbody>
+      {% include 'projects/partial_project_list.html' %}
+    </tbody>
+  </table>
+
+  <div class="modal fade" id="modal-book">
+    <div class="modal-dialog  ">
+
+
+      <div class="modal-content">
+      </div>
+    </div>
+  </div>
+  {% if users.has_other_pages %}
+  <ul class="pagination">
+    {% if users.has_previous %}
+      <li><a href="?page={{ users.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in users.paginator.page_range %}
+      {% if users.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if users.has_next %}
+      <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+{% endblock %}
