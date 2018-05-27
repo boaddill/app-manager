@@ -81,14 +81,14 @@ class Chapter (models.Model):
 
 #partidas del proyecto
 
-<<<<<<< HEAD
+
 class Task (models.Model):
 	code                 = models.CharField("Code", max_length=200, blank=True,null=True )
 	task_name            = models.CharField("Task name ", max_length=200, blank=True,null=True )
 	
 	description          = models.TextField("coments", max_length=400, blank=True,null=True,default='coments')
 	
-=======
+
 class Entry (models.Model):
 
 	entry_name            = models.CharField("Entry name ", max_length=200, blank=True,null=True )
@@ -119,7 +119,7 @@ class Entry (models.Model):
 
 
 
->>>>>>> fernando
+
 	def __str__(self):
 		return self.entry_name
 	class Meta:        
