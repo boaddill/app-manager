@@ -85,9 +85,10 @@ class Invoice(models.Model):
 class Buying_Entry(models.Model):
 
 	date             = models.DateField('date',auto_now=False)
-	item             = models.ForeignKey(Item , on_delete=models.CASCADE, verbose_name='Item' )
-	units            = models.CharField("units", max_length=200, blank=True,null=True )
+	item             = models.ForeignKey('projects.Entry_Item_Price' , on_delete=models.CASCADE, verbose_name='Item' )
+	units            = models.CharField("units", max_length=200, blank=True,null=True ,default='unidades')
 	quantity		 = models.DecimalField(blank=True,null=True, decimal_places=2,max_digits=10)
+	price            = models.DecimalField(blank=True,null=True ,decimal_places=2,max_digits=10)
 	total_price      = models.DecimalField(blank=True,null=True ,decimal_places=2,max_digits=10)
 	provider         = models.ForeignKey('users.Profile_Provider', on_delete=models.CASCADE , blank=True,null=True,verbose_name='Provider' )
 	invoiced         = models.BooleanField(default=False,)
@@ -95,12 +96,15 @@ class Buying_Entry(models.Model):
 	docket           = models.ForeignKey(Docket,default=None ,on_delete=models.CASCADE , blank=True,null=True,verbose_name='Docket')
 	invoice          = models.ForeignKey(Invoice,default=None ,on_delete=models.CASCADE ,blank=True,null=True, verbose_name='Invoice' )
 
+
 	class Meta:        
 		verbose_name = "Entry"
 		verbose_name_plural = "Entries"
 
+
 	def save(self):
-		self.total_price=self.quantity*self.item.item_price
+		self.price = self.item.item_price
+		self.total_price=self.quantity*self.price
 		super(Buying_Entry,self).save()
 
 	def __str__(self):
