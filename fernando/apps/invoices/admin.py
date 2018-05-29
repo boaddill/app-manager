@@ -10,7 +10,7 @@ admin.site.register(Item, AdminItem)
 
 
 class AdminBuying_Entry(admin.ModelAdmin):
-	list_display = [ 'date', 'item','quantity', 'total_price', 'provider']
+	list_display = [ 'date', 'item','quantity', 'price', 'total_price','provider']
 	#form = InvoiceForm
 	class Meta:
 		model =  Buying_Entry
