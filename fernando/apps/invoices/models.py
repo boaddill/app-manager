@@ -95,6 +95,7 @@ class Buying_Entry(models.Model):
 	order            = models.ForeignKey(Order,default=None ,on_delete=models.CASCADE , blank=True,null=True,verbose_name='Order' )
 	docket           = models.ForeignKey(Docket,default=None ,on_delete=models.CASCADE , blank=True,null=True,verbose_name='Docket')
 	invoice          = models.ForeignKey(Invoice,default=None ,on_delete=models.CASCADE ,blank=True,null=True, verbose_name='Invoice' )
+	
 
 
 	class Meta:        
@@ -104,7 +105,10 @@ class Buying_Entry(models.Model):
 
 	def save(self):
 		self.price = self.item.item_price
-		self.total_price=self.quantity*self.price
+		try:
+			self.total_price=self.quantity*self.price
+		except:
+			self.total_price = 0
 		super(Buying_Entry,self).save()
 
 	def __str__(self):

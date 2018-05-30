@@ -309,10 +309,13 @@
 			}
 		},
 		{
+			"contents": "from django.db import models\nfrom django.db.models.signals import post_save,post_delete\nfrom django.dispatch import receiver\n\nclass Project(models.Model):\n\t\"\"\"docstring for invoice:\"\"\"\n\n\tACCEPTED='ACT'\n\tWAITING = 'WFA'\n\tOVERULLED= 'REJ'\n\tSTATE_TYPES = (\n\t\t(ACCEPTED, 'Accepted'),\n        (WAITING, 'Waiting'),\n        (OVERULLED, 'Overruled'),\n               )\n\t\n\tproject_name         = models.CharField(max_length=200, blank=True, null=True)\n\tproject_number       = models.CharField(max_length=200, blank=True)\n\tdate                 = models.DateField(blank=True, null=True)\n\tproject_address      = models.CharField(max_length=200, blank=True,null=True)\n\tstart_date           = models.DateField(blank=True, null=True)\n\tend_date             = models.DateField(blank=True, null=True)\n\tproject_manager      = models.ManyToManyField('users.Profile_Employee', blank=True,verbose_name=\"Project manager\",related_name='project_manager')\n\tsite_manager         = models.ManyToManyField('users.Profile_Employee', blank=True ,verbose_name=\"site manager\",related_name='site_manager')\n\tquantity_surveyor    = models.ManyToManyField('users.Profile_Employee', blank=True ,verbose_name=\"quantyty surveyor\",related_name='quantity_surveyor')\n\tforeman              = models.ManyToManyField('users.Profile_Employee', blank=True ,verbose_name=\"Foreman\",related_name='foreman')\n\tclient               = models.ForeignKey('users.Profile_client',on_delete=models.CASCADE,null=True ,blank=True,verbose_name=\"client\",related_name=\"client\")\n\tstate                = models.CharField(max_length=3, choices = STATE_TYPES,default=WAITING)\n\t\n\tdef __str__(self):\n\t\treturn   self.project_name\n\t\n#presupuestos {{{ pendient  asociar precio a precio capitulos }}}\nclass Scope (models.Model):\n\tcode            = models.CharField(\"Code\", max_length=200, blank=True,null=True )\n\tproject         = models.OneToOneField(Project, on_delete=models.CASCADE ,verbose_name=\"Project\")\n\tdate            = models.DateField(\"Date\", max_length=200, blank=True,null=True )\n\tvalid_until     = models.DateField('Valid untill',blank=True,null=True)\n\ttotal_price     = models.DecimalField(blank=True,null=True,decimal_places=2,max_digits=10)\n\n\tdef __str__(self):\n\t\treturn   self.project.project_name\n\n\n\t\n\t\n#signal \n@receiver(post_save, sender=Project)\ndef create_scope(sender, instance, created, **kwargs):\n\tif created:\n\t\tScope.objects.create( project=instance )\n\t\t\n\n\telse:\n\t\tpass\n\n@receiver(post_save, sender=Project)\ndef save_scope(sender, instance,**kwargs):\n    instance.scope.save()\n    \n    \n\n\n#fases del proyecto   {{ pendiente actualizar metodo save() para todas las listas de precios}}\nclass Phase(models.Model):\n\tphase_code        = models.IntegerField( )\n\tphase_name        = models.CharField('Phase name ',max_length=200, blank=True,null=True)\n\tcoments           = models.TextField(\"coments\", max_length=400, blank=True,null=True,default='coments' )\n\tstart_date        = models.DateField(blank=True, null=True)\n\tend_date          = models.DateField(blank=True, null=True)\n\tscope_price\t\t  = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tinvoice_price     = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tplanif_price      = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\ttarget_price      = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\treal_price        = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\n\n\tdef __str__(self):\n\t\treturn self.phase_name\n\n\n\tdef save(self):\n\n\t\tself.scope_meassurement = self.scope_meassurement_set.all().distinct()\n\t\tif self.scope_meassurement:\n\t\t\ttotal=0\n\t\t\tfor obj in self.scope_meassurement:\n\t\t\t\tmed=obj.total_meassurement*obj.entry.scope_unt_price\n\t\t\t\ttotal=total+med\n\t\t\tself.scope_price=total\n\t\tsuper(Phase, self).save()\n\n\n\n\t#capitulos del proyecto asocia precio a suma de partidas {{{ aun pendiente}}}\nclass Chapter (models.Model):\n\tcode              = models.IntegerField( )\n\tchapter_name      = models.CharField(\"Chapter name \", max_length=200, blank=True,null=True )\n\tquantity\t\t  = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=10)\n\ttotal_price       = models.DecimalField(blank=True,null=True ,decimal_places=2,max_digits=10)\n\tscope    \t      = models.ForeignKey(Scope,on_delete=models.CASCADE ,blank=True,null=True , verbose_name='Scope')\n\n\tdef __str__(self):\n\t\treturn \"%s - %s\" %(self.chapter_name ,self.scope.project.project_name)\n\n\tclass Meta:        \n\t\tordering = ['code']\n\t\n\n#partidas del proyecto\n\n\nclass Task (models.Model):\n\tcode                 = models.CharField(\"Code\", max_length=200, blank=True,null=True )\n\ttask_name            = models.CharField(\"Task name \", max_length=200, blank=True,null=True )\n\t\n\tdescription          = models.TextField(\"coments\", max_length=400, blank=True,null=True,default='coments')\n\t\n\nclass Entry (models.Model):\n\n\tentry_name            = models.CharField(\"Entry name \", max_length=200, blank=True,null=True )\n\tcode                  = models.CharField(\"Code\", max_length=200, blank=True,null=True )\n\tdescription           = models.TextField(\"Coments\", max_length=400, blank=True,null=True,default='coments')\n\titems   \t          = models.ManyToManyField('invoices.Item',blank=True,verbose_name=\"Items\")\n\tchapter    \t          = models.ForeignKey(Chapter,on_delete=models.CASCADE ,blank=True ,null=True, verbose_name='Chapter - Project')\n\tproject    \t          = models.ForeignKey(Project,on_delete=models.CASCADE ,blank=True ,null=True, verbose_name='Project')\n\tscope_quantity\t\t  = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tinvoice_quantity\t  = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tplanif_quantity\t      = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\ttarget_quantity\t      = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\treal_quantity\t      = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tscope_unt_price\t      = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tinvoice_unt_price     = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tplanif_unt_price      = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\ttarget_unt_price      = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\treal_unt_price        = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tscope_price\t\t      = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tinvoice_price         = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tplanif_price          = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\ttarget_price          = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\treal_price            = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\n\t\n\tdef save(self): \n\n\n\t\t##precios unitarios\n\t\tself.entry_item_price_target_list = self.entry_item_price_set.all()\n\t\tprice_list = self.entry_item_price_target_list.values_list('price_per_entry_unit',flat=True)\n\t\tsuma=0\n\t\tfor item in price_list:\n\t\t\tsuma=suma+item\n\t\tself.target_unt_price = suma\n\t\tself.scope_unt_price  = suma\n\t\t\n\n\n\t\t#medidas\n\t\t#scope\n\t\tself.scope_meassurements=self.scope_meassurement_set.all()\n\t\tscope_list =self.scope_meassurements.values_list('total_meassurement', flat=True)\n\t\tsuma=0\n\t\tfor i in scope_list:\n\t\t\tsuma = suma + i\n\t\tself.scope_quantity=suma\n\t\tif self.scope_quantity!=0 and self.scope_unt_price!=None  \t:\n\t\t\tself.scope_price= self.scope_unt_price*suma\n\t\telse:\n\t\t\tself.scope_price=0\t\t\n\t\t\n\n\t\t#invoice\n\t\tself.invoice_meassurements=self.invoice_meassurement_set.all()\n\t\tinvoices_list =self.invoice_meassurements.values_list('total_meassurement', flat=True)\n\t\tsuma=0\n\t\tfor i in invoices_list:\n\t\t\tsuma = suma + i\n\t\tself.invoice_quantity=suma\n\t\tif self.invoice_quantity!=0 and self.invoice_unt_price!=None:\n\t\t\tself.invoice_price= self.invoice_unt_price*self.invoice_quantity\n\t\telse:\n\t\t\tself.invoice_price=0\n\n\t\t#planif\n\t\tself.planif_meassurements=self.planification_meassurement_set.all()\n\t\tplanif_list =self.planif_meassurements.values_list('total_meassurement', flat=True)\n\t\tsuma=0\n\t\tfor i in planif_list:\n\t\t\tsuma = suma + i\n\t\tself.planif_quantity=suma\n\t\tif self.planif_quantity!=0 and self.planif_unt_price!=None:\n\t\t\tself.planif_price= self.planif_unt_price*self.planif_quantity\n\t\telse:\n\t\t\tself.planif_price=0\n\n\t\t#target\n\t\tself.target_meassurements=self.target_meassurement_set.all()\n\t\ttarget_list =self.target_meassurements.values_list('total_meassurement', flat=True)\n\t\tsuma=0\n\t\tfor i in target_list:\n\t\t\tsuma = suma + i\n\t\tself.target_quantity=suma\n\t\tif self.target_quantity!=0 and self.target_unt_price!=None:\n\t\t\tself.target_price= self.target_unt_price*self.target_quantity\n\t\telse:\n\t\t\tself.target_price=0\n\n\t\t#real\n\t\tself.real_meassurements=self.real_meassurement_set.all()\n\t\treal_list =self.real_meassurements.values_list('total_meassurement', flat=True)\n\t\tsuma=0\n\t\tfor i in real_list:\n\t\t\tsuma = suma + i\n\t\tself.real_quantity=suma\n\t\tif self.real_quantity!=0 and self.real_unt_price!=None:\n\t\t\tself.real_price= self.real_unt_price*self.real_quantity\n\t\telse:\n\t\t\tself.real_price=0\n\n\t\tsuper(Entry,self).save()\n#fin metodo save para Entries \n\n\n\tdef __str__(self):\n\t\treturn \"%s - %s\" %(self.entry_name ,self.project)\n\tclass Meta:        \n\t\tverbose_name = \"Project Entry\"\n\t\tverbose_name_plural = \"Project Entries\"\n\n\t\nclass Entry_Item_Price(models.Model):\n\titem                              = models.ForeignKey('invoices.Item', on_delete=models.CASCADE ,null=True,verbose_name=\"Item\")\n\tquantity_per_entry_unit_scope     = models.DecimalField('scope',blank=True,decimal_places=2,null=True,max_digits=20)\n\tquantity_per_entry_unit_real      = models.DecimalField('real',blank=True,decimal_places=2,null=True,max_digits=20)\n\titem_price                        = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tprice_per_entry_unit              = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tquantity_needed \t\t          = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tentry                             = models.ForeignKey(Entry, on_delete=models.CASCADE ,null=True,verbose_name=\"Entry\")\n\tchapter \t\t                  = models.ForeignKey(Chapter, on_delete=models.CASCADE ,null=True,verbose_name=\"Chapter\")\n\tproject \t\t\t              = models.ForeignKey(Project, on_delete=models.CASCADE ,null=True,verbose_name=\"Project\")\n\n\t\n\n\tdef save(self):\n\t\tself.buyings= self.buying_entry_set.all()\n\t\tlista= self.buyings.values_list('quantity',flat=True)\n\t\tif self.entry.real_quantity:\n\t\t\tsuma=0\n\t\t\tfor obj in lista:\n\t\t\t\tsuma=suma+obj\n\t\tself.quantity_per_entry_unit_real=suma/self.entry.real_quantity\n\t\t\n\n\n\n\n\t\tself.price_per_entry_unit = self.item_price*self.quantity_per_entry_unit_scope\n\t\tself.quantity_needed = self.quantity_per_entry_unit_scope*self.entry.scope_quantity\n\t\tsuper(Entry_Item_Price,self).save()\n\n\tclass Meta:        \n\t\tverbose_name = \"Project Price\"\n\t\tverbose_name_plural = \"Project Prices\"\n\n\tdef __str__(self):\n\t\treturn \"%s - %s\" %(self.item ,self.project)\n\n# classes para las mediciones del presupuesto , objetivo , certificacion  y planificacion\n\nclass Scope_Meassurement(models.Model):\n\n\tentry               = models.ForeignKey(Entry, on_delete=models.CASCADE ,null=True,verbose_name=\"Entry\")\n\tcoments             = models.CharField(\"coments\", max_length=200, blank=True,null=True )\n\tud_type             = models.CharField(\"unidades\", max_length=200, blank=True,null=True )\n\tquantity\t\t\t= models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\twidth\t\t        = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\thigh    \t\t    = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\twide    \t\t    = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\ttotal_meassurement  = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tphase               = models.ForeignKey(Phase,on_delete=models.CASCADE ,blank=True,null=True , verbose_name='phase')\n\n\tclass Meta:        \n\t\tverbose_name = \"Scope Meassurement\"\n\t\tverbose_name_plural = \"Scope Meassurements\"\n\n\tdef save(self):\n\t\tA=[]\n\t\tB=[self.width,self.high,self.wide]\n\t\tfor i in B:\n\t\t\tif i!=None:\n\t\t\t\tA.append(i)\n\t\tC=1\n\t\tfor i in A:\n\t\t\tC=C*i\n\t\tif self.quantity:\n\t\t\tself.total_meassurement=self.quantity*C\n\t\telse:\n\t\t\tself.total_meassurement=0\n\t\tsuper(Scope_Meassurement,self).save()\n\t\t\nclass Invoice_Meassurement(models.Model):\n\n\tentry               = models.ForeignKey(Entry, on_delete=models.CASCADE ,null=True,verbose_name=\"Entry\")\n\tcoments             = models.CharField(\"coments\", max_length=200, blank=True,null=True )\n\tud_type             = models.CharField(\"unidades\", max_length=9, blank=True,null=True )\n\tquantity\t\t\t= models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\twidth\t\t        = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\thigh    \t\t    = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\twide    \t\t    = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\ttotal_meassurement  = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tphase               = models.ForeignKey(Phase,on_delete=models.CASCADE ,blank=True,null=True , verbose_name='phase')\n\n\t\n\tclass Meta:        \n\t\tverbose_name = \"Invoice Meassurement\"\n\t\tverbose_name_plural = \"invoice Meassurements\"\n\n\tdef save(self):\n\t\tA=[]\n\t\tB=[self.width,self.high,self.wide]\n\t\tfor i in B:\n\t\t\tif i!=None:\n\t\t\t\tA.append(i)\n\t\tC=1\n\t\tfor i in A:\n\t\t\tC=C*i\n\t\tif self.quantity:\n\t\t\tself.total_meassurement=self.quantity*C\n\t\telse:\n\t\t\tself.total_meassurement=0\n\t\tsuper(Invoice_Meassurement,self).save()\n\nclass Planification_Meassurement(models.Model):\n\n\tentry               = models.ForeignKey(Entry, on_delete=models.CASCADE ,null=True,verbose_name=\"Entry\")\n\tcoments             = models.CharField(\"coments\", max_length=200, blank=True,null=True )\n\tud_type             = models.CharField(\"unidades\", max_length=200, blank=True,null=True )\n\tquantity\t\t\t= models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\twidth\t\t        = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\thigh    \t\t    = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\twide    \t\t    = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\ttotal_meassurement  = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tphase               = models.ForeignKey(Phase,on_delete=models.CASCADE ,blank=True,null=True , verbose_name='phase')\n\n\tclass Meta:        \n\t\tverbose_name = \"Planification Meassurement\"\n\t\tverbose_name_plural = \"Planification Meassurements\"\n\n\n\tdef save(self):\n\t\tA=[]\n\t\tB=[self.width,self.high,self.wide]\n\t\tfor i in B:\n\t\t\tif i!=None:\n\t\t\t\tA.append(i)\n\t\tC=1\n\t\tfor i in A:\n\t\t\tC=C*i\n\t\tif self.quantity:\n\t\t\tself.total_meassurement=self.quantity*C\n\t\telse:\n\t\t\tself.total_meassurement=0\n\t\tsuper(Planification_Meassurement,self).save()\n\nclass Target_Meassurement(models.Model):\n\n\tentry               = models.ForeignKey(Entry, on_delete=models.CASCADE ,null=True,verbose_name=\"entry\")\n\tcoments             = models.CharField(\"coments\", max_length=200, blank=True,null=True )\n\tud_type             = models.CharField(\"unidades\", max_length=200, blank=True,null=True )\n\tquantity\t\t\t= models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\twidth\t\t        = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\thigh    \t\t    = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\twide    \t\t    = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\ttotal_meassurement  = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tphase               = models.ForeignKey(Phase,on_delete=models.CASCADE ,blank=True,null=True , verbose_name='phase')\n\n\tclass Meta:        \n\t\tverbose_name = \"Target Meassurement\"\n\t\tverbose_name_plural = \"Target Meassurements\"\n\n\tdef save(self):\n\t\tA=[]\n\t\tB=[self.width,self.high,self.wide]\n\t\tfor i in B:\n\t\t\tif i!=None:\n\t\t\t\tA.append(i)\n\t\tC=1\n\t\tfor i in A:\n\t\t\tC=C*i\n\t\tif self.quantity:\n\t\t\tself.total_meassurement=self.quantity*C\n\t\telse:\n\t\t\tself.total_meassurement=0\n\t\tsuper(Target_Meassurement,self).save()\t\t\n\nclass Real_Meassurement(models.Model):\n\n\tentry               = models.ForeignKey(Entry, on_delete=models.CASCADE ,null=True,verbose_name=\"entry\")\n\tcoments             = models.CharField(\"coments\", max_length=200, blank=True,null=True )\n\tud_type             = models.CharField(\"unidades\", max_length=200, blank=True,null=True )\n\tquantity\t\t\t= models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\twidth\t\t        = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\thigh    \t\t    = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\twide    \t\t    = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\ttotal_meassurement  = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)\n\tphase               = models.ForeignKey(Phase,on_delete=models.CASCADE ,blank=True,null=True , verbose_name='phase')\n\n\tclass Meta:        \n\t\tverbose_name = \"Real Meassurement\"\n\t\tverbose_name_plural = \"Real Meassurements\"\n\n\tdef save(self):\n\t\tA=[]\n\t\tB=[self.width,self.high,self.wide]\n\t\tfor i in B:\n\t\t\tif i!=None:\n\t\t\t\tA.append(i)\n\t\tC=1\n\t\tfor i in A:\n\t\t\tC=C*i\n\t\tif self.quantity:\n\t\t\tself.total_meassurement=self.quantity*C\n\t\telse:\n\t\t\tself.total_meassurement=0\n\t\tsuper(Real_Meassurement,self).save()\t\t\n\n#senal para creacion automatica de sets de mediciones cuando creamos una partida \n\n\n@receiver(post_save, sender=Entry)\ndef create_meassurments(sender, instance, created, **kwargs):\n\t\n\tif created:\n\t\tojb=Invoice_Meassurement(entry=instance)\n\t\tojb1=Scope_Meassurement(entry=instance)\n\t\tojb2=Planification_Meassurement(entry=instance)\n\t\tojb3=Target_Meassurement(entry=instance)\n\t\tojb5=Real_Meassurement(entry=instance)\n\t\tojb4=Entry_Item_Price_Target(entry=instance)\n\t\tojb.save()\n\t\tojb1.save()\n\t\tojb2.save()\n\t\tojb3.save()\n\t\tojb4.save()\n\t\tojb5.save()\n\n\n#recaluclo de precios\n@receiver(post_save, sender=Entry_Item_Price)\ndef price_save(sender, instance, created, **kwargs):\n\t\n\tobj=Entry.objects.all()\n\tfor entity in obj:\n\t\tentity.save()  \n\n@receiver(post_delete, sender=Entry_Item_Price)\ndef price_delete(sender, instance,  **kwargs):\n\t\n\tobj=Entry.objects.all()\n\tfor entity in obj:\n\t\tentity.save() \n\t   \n\n@receiver(post_save, sender=Scope_Meassurement)\ndef Meassurements_scope_save(sender, instance, created, **kwargs):\n\t\n\tobj=Entry.objects.all()\n\tfor entity in obj:\n\t\tentity.save()  \n\tobj1=Phase.objects.all()\n\tfor entity in obj1:\n\t\tentity.save() \n\tobj2=Entry_Item_Price.objects.all()\n\tfor entity in obj2:\n\t\tentity.save()    \n\n@receiver(post_delete, sender=Scope_Meassurement)\ndef Meassurements_scope_delete(sender, instance,  **kwargs):\n\t\n\tobj=Entry.objects.all()\n\tfor entity in obj:\n\t\tentity.save() \n\tobj1=Phase.objects.all()\n\tfor entity in obj1:\n\t\tentity.save()\n\tobj2=Entry_Item_Price.objects.all()\n\tfor entity in obj2:\n\t\tentity.save()      \n\t\t\n#hacer lo mismo con resto de mediciones  importante\n\t\t\n\n\n\n\n\n\t\n\n\n\t\n\n\n\t\n\n\t",
 			"file": "models.py",
+			"file_size": 19446,
+			"file_write_time": 131720776639509176,
 			"settings":
 			{
-				"buffer_size": 18481,
+				"buffer_size": 19440,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -321,7 +324,8 @@
 			"file": "/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/models.py",
 			"settings":
 			{
-				"buffer_size": 7664,
+				"buffer_size": 7666,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -329,7 +333,7 @@
 			"file": "admin.py",
 			"settings":
 			{
-				"buffer_size": 3038,
+				"buffer_size": 3044,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -468,7 +472,16 @@
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/migrations",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/profiles",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/profiles/migrations",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/migrations",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/migrations/__pycache__",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/quotes",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/quotes/migrations",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/users",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/users/migrations",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/static",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/js"
@@ -675,15 +688,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 18481,
+						"buffer_size": 19440,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6529,
-								6529
+								7209,
+								7209
 							]
 						],
 						"settings":
@@ -692,7 +705,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1822.0,
+						"translation.y": 3330.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -701,18 +714,18 @@
 				{
 					"buffer": 2,
 					"file": "/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/models.py",
-					"semi_transient": true,
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7664,
+						"buffer_size": 7666,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								4238,
+								4238
 							]
 						],
 						"settings":
@@ -721,10 +734,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 13.0,
+						"translation.y": 1126.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -733,15 +746,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3038,
+						"buffer_size": 3044,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								334,
-								334
+								2813,
+								2813
 							]
 						],
 						"settings":
@@ -750,10 +763,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 45.0,
+						"translation.y": 1084.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
