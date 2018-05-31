@@ -86,7 +86,7 @@ class Invoice(models.Model):
 class Buying_Entry(models.Model):
 
 	date             = models.DateField('date',auto_now=False)
-	item             = models.ForeignKey('projects.Entry_Item_Price' , on_delete=models.CASCADE, verbose_name='Item' )
+	item             = models.ForeignKey('projects.Entry_Item_Price' , on_delete=models.CASCADE, blank=True,null=True,verbose_name='Item' )
 	units            = models.CharField("units", max_length=200, blank=True,null=True ,default='unidades')
 	quantity		 = models.DecimalField(blank=True,null=True, decimal_places=2,max_digits=10)
 	price            = models.DecimalField(blank=True,null=True ,decimal_places=2,max_digits=10)
