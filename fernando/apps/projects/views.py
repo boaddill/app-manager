@@ -170,22 +170,14 @@ def save_chapter_form(request, form, template_name, id):
    
     if request.method == 'POST':
         if form.is_valid():
-        	scope = get_object_or_404(Scope , id=id)
-        	pp=form.save(commit=False)
-        	pp.scope=scope
-        	pp.save()
-        	chapters    = Chapter.objects.filter(scope=scope)
-        	project     =scope.project
-        	user        = get_object_or_404(User , email=request.user.email)
-
-        	context={
-        		'project':project,
-				'scope':scope,
-				'chapters':chapters,
-				'user':user}
-        	data['form_is_valid'] = True
-
-        	data['html_scope'] = render_to_string('projects/scope_partial.html', context)
+          	form.save()
+          	scope       = get_object_or_404(Scope , id=id)
+          	chapters    = Chapter.objects,filter(scope=scope)
+          	project     = scope.project
+          	user        = get_object_or_404(User , email=request.user.email)
+          	context={'project':project,'scope':scope,'chapters':chapters,'user':user}
+          	data['form_is_valid'] = True
+          	data['html_scope'] = render_to_string('projects/scope_partial.html', context)
         else:
             data['form_is_valid'] = False
     context = {'form': form , 'id':id}
@@ -195,8 +187,8 @@ def save_chapter_form(request, form, template_name, id):
 
 @superuser				
 def chapter_create(request ,**kwargs):
-	id=kwargs['id']
-	scope = get_object_or_404(Scope , id=id)
+	scope_id = kwargs['id']
+	scope = get_object_or_404(Scope , id=scope_id)
 	initial =scope
 	print (scope)
 	if request.method == 'POST':
@@ -209,12 +201,12 @@ def chapter_create(request ,**kwargs):
 
 @superuser
 def chapter_update(request, id):
-    user = get_object_or_404(User, id=id)
+    chapter = get_object_or_404(Chapter, id=id)
     if request.method == 'POST':
-        form = UserCreationForm(request.POST, instance=user)
+        form = Chapter_Creation_Form(request.POST, instance=chapter)
     else:
-        form = UserCreationForm(instance=user)
-    return save_user_form(request, form, 'users/partial_user_update.html','update' ,id)
+        form = Chapter_Creation_Form(instance=chapter)
+    return save_chapter_form(request, form, 'projects/chapters/partial_chapter_update.html' ,id)
 
 
 @superuser

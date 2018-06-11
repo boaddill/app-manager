@@ -2,7 +2,8 @@ import re
 from django.urls import path
 from  .views import  (project_list,project_detail,
 					 project_create,
-					 scope_detail,chapter_create,chapter_delete
+					 scope_detail,chapter_create,chapter_delete,
+					 chapter_update
 
 )
 
@@ -15,5 +16,6 @@ urlpatterns = [
     path('scope_detail/<id>', scope_detail, name='scope_detail'),
     path('chapter_create/<id>', chapter_create, name='chapter_create'),
     path('chapter_delete/<id>', chapter_delete, name='chapter_delete'),
+    path('chapter_update/<id>', chapter_update, name='chapter_update'),
     
 ]
