@@ -317,9 +317,11 @@ class Chapter (models.Model):
 	class Meta:        
 		ordering = ['code']
 
-	def save(self):
+	
 
-<<<<<<< HEAD
+
+
+
 
 class Task (models.Model):
 	code                 = models.CharField("Code", max_length=200, blank=True,null=True )
@@ -329,9 +331,7 @@ class Task (models.Model):
 	
 
 class Entry (models.Model):
-=======
-		
->>>>>>> a0f9c3ab29d1283bd7a1af1a9b8d0fa19c3b3c91
+
 
 		#scope
 		self.entry_prices_obj = self.entry_set.all()
@@ -581,11 +581,9 @@ class Entry (models.Model):
 				self.real_price=0
 		super(Entry,self).save()
 
-<<<<<<< HEAD
 
-=======
 #fin metodo save para Entries 
->>>>>>> a0f9c3ab29d1283bd7a1af1a9b8d0fa19c3b3c91
+
 	def __str__(self):
 		return "%s - %s" %(self.entry_name ,self.project.project_name)
 	class Meta:        
