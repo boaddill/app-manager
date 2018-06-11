@@ -1,0 +1,136 @@
+{% extends 'users/base1.html' %}
+{%  load static %}
+
+{% block style %}
+
+<style type="text/css">
+	
+label {
+	font-size: 1.3em
+}
+span {
+	font-size: 1.1em
+}
+
+</style>
+
+{% endblock %}
+
+
+
+{%block content %}
+<div >
+<div class="container-fluid" style=" border: solid 1px grey ;background: white ">
+	<h2 style="color: blue" >{{obj.project_name}}</h2>
+<div class="row">
+	<div class="col-sm-3 " style="" >
+    	<label>Project Number :</label>  <span> {{obj.project_number}} </span>
+	</div>
+
+
+	<div class="col-sm-3 " style="" >
+		<button  style="" type="button"
+              class="btn btn-warning btn-sm js-update-book"
+              data-url="{% url 'users:user_update' user.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> Edit
+      </button>
+      <button type="button"
+              class="btn btn-danger btn-sm js-delete-book"
+              data-url="{% url 'users:user_delete' user.id %}">
+        <span class="glyphicon glyphicon-trash"></span> Delete
+      </button>
+
+	</div>
+    	
+	
+</div>	
+
+	
+
+	<div class="row">
+    <div class="col-sm-3 " style="" >
+    	<label>Project Client :</label>  <span> {{obj.project_client}} </span>
+	</div>
+
+
+    <div class="col-sm-3" style="">
+    	<label>Project Address :</label>  <span>{{obj.project_address }} </span>
+    </div>
+    <div class="col-sm-3"  style="">
+    	<label>State  :</label>  <span>{{obj.state }} </span>
+    </div>
+  </div>
+
+<div class="row">
+    <div class="col-sm-3 " style="" >
+    	<label>Project Manager :</label> 
+    	 <span> 
+    	 	{% for man in obj.project_manager.all %}
+            {{ man }}
+            {% endfor %}
+    	 </span>
+	</div>
+
+
+    <div class="col-sm-3" style="">
+    	<label>Quantity Surveyor :</label>  
+    	<span>
+    		{% for man in obj.quantity_surveyor.all %}
+            {{ man }}
+            {% endfor %}
+
+
+    	 </span>
+    </div>
+    <div class="col-sm-3"  style="">
+    	<label>Foreman:</label>  
+		<span> 
+			{% for man in obj.foreman.all %}
+            {{ man }}
+            {% endfor %}
+
+    	</span>
+    </div>
+    <div class="col-sm-3 " style="" >
+    	<label>Site Manager :</label>  
+    	<span>
+    		{% for man in obj.site_manager.all %}
+            {{ man }}
+            {% endfor %}
+
+    	</span>
+	</div>
+    
+  </div>
+<div class="row">
+    
+
+
+    <div class="col-sm-3" style="">
+    	<label>Indirect Cost Factor:</label>  <span>{{obj.indirect_cost_factor }} </span>
+    </div>
+    <div class="col-sm-3"  style="">
+    	<label>Benefit Factor :</label>  <span>{{obj.benefit_factor }} </span>
+    </div>
+    <div class="col-sm-3 " style="" >
+    	<label>General Cost Factor :</label><span> {{obj.general_cost_factor }}</span>
+	</div>
+	<div class="col-sm-3" style="">
+    	<label>Custom Factor :</label>  <span>{{obj.custom_factor }} </span>
+    </div>
+  </div>
+  <div class="row">
+    
+
+
+    
+    
+  </div>
+  <div class="col-sm-3"  style="">
+    	 
+    </div>
+
+</div>
+</div>
+
+{% endblock %}

@@ -1,12 +1,18 @@
 {% load static %}
 {% for project in projects %}
+ 
         <tr>
 
-           <td>{{ project.project_name }}</td>
+           <td><a style="" href="{%url 'projects:project_create' id=project.id   %}" >{{ project.project_name }}</a></td>
            <td>{{ project.project_number }}</td>
            <td>{{ project.project_address}}</td>
-           <td>{{ project.start_date}}</td>
-           <td>{{ project.project_manager}}</td>
+           <td>{{ project.start_date}} </td>                                       
+           <td> 
+            {% for man in project.project_manager.all %}
+            <p>{{ man }}</p>
+            {% endfor %}
+
+          </td>                                       
            <td>{{ project.client}}</td>
            <td>{{ project.state}}</td>
            <td>

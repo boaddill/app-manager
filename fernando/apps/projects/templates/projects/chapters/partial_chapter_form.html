@@ -1,0 +1,36 @@
+ 
+{% load static %}
+
+
+ <table style="text-align: center;"  border="0"  class="table table-bordered ">
+  <tbody>
+    <tr  style="background:#B39609" >
+
+      <th scope="col" style="width: 30px"                                 >Code</th>
+      <th scope="col" style="width: 30px"                                 >Unit</th>
+      <th style="" scope="col"                                            >Chapter</th>
+      <th class="scope" scope="col"                                       >Quantity[scope]</th>
+      <th style=""  class="real" scope="col"                              >quantity[Real]</th>
+      
+ 
+<!-- fields = ('code','units','chapter_name','quantity_scope','quantity_invoice','quantity_planif','quantity_target','quantity_real') -->
+
+
+<tr  style="background:#AAC7A0">
+      <td  style="width: 50px"                                             >{{form.code}}</td>
+      <td  style="width: 50px"                                             >{{form.units}}</td>
+      <td id="{{chapter.id}}" style="width: 100%; font-weight: bold; "     >{{form.chapter_name}}</td>
+      <td style=""  class="scope          "                                >{{form.quantity_scope}}</td>
+      <td style=""  class="real"                                           >{{form.quantity_real}}</td>
+
+</tr>
+
+
+
+
+</tbody>
+
+</table>
+
+     
+   

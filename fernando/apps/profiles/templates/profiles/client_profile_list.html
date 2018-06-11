@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block javascript %}
-<!-- <script src="{% static 'js/clients.js' %}"></script>  -->
+<script src="{% static 'js/users.js' %}"></script> 
 {% endblock %}
 
 
@@ -22,9 +22,9 @@
 
 
 <p>
-    <button style="float: left;" type="button" class="btn btn-primary js-create-client" data-url="{% url 'users:user_create' %}"  >
+    <button style="float: left;" type="button" class="btn btn-primary js-create-client" data-url=""  >
       <span class="glyphicon glyphicon-plus"></span>
-      <a href="{% url 'users:user_list'   %}" style="text-decoration: none; color: white; ">Client detail</a>
+      <a href='' style="text-decoration: none; color: white; ">Client detail</a>
     </button>
     <form class="" role="search">
         

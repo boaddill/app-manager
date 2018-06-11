@@ -12,6 +12,7 @@ class Item(models.Model):
 	unit             = models.CharField("Units", max_length=200, blank=True,null=True )
 	item_description = models.TextField("Item description", max_length=200, blank=True,null=True )
 	provider		 = models.ForeignKey('users.Profile_Provider',on_delete=models.CASCADE ,blank=True,null=True,verbose_name='Provider')
+
 	def __str__(self):
 		return self.item_name
 
@@ -96,6 +97,7 @@ class Buying_Entry(models.Model):
 	order            = models.ForeignKey(Order,default=None ,on_delete=models.CASCADE , blank=True,null=True,verbose_name='Order' )
 	docket           = models.ForeignKey(Docket,default=None ,on_delete=models.CASCADE , blank=True,null=True,verbose_name='Docket')
 	invoice          = models.ForeignKey(Invoice,default=None ,on_delete=models.CASCADE ,blank=True,null=True, verbose_name='Invoice' )
+	
 
 
 	class Meta:        
@@ -105,7 +107,10 @@ class Buying_Entry(models.Model):
 
 	def save(self):
 		self.price = self.item.item_price
-		self.total_price=self.quantity*self.price
+		try:
+			self.total_price=self.quantity*self.price
+		except:
+			self.total_price = 0
 		super(Buying_Entry,self).save()
 
 
@@ -138,8 +143,12 @@ class Time_Sheet(models.Model):
 		super(Time_Sheet,self).save()
 
 	
+<<<<<<< HEAD
 
 	
+=======
+#update Docket class
+>>>>>>> a0f9c3ab29d1283bd7a1af1a9b8d0fa19c3b3c91
 @receiver(post_save, sender=Buying_Entry)
 def save_Docket(sender,created, instance,**kwargs):
 	obj=instance.docket
@@ -147,15 +156,13 @@ def save_Docket(sender,created, instance,**kwargs):
 	if obj:
 		obj.save()
 	else:
-		query =Docket.objects.all()
-		for obj in query:
-			obj.save()
+		pass
+	
 	if obj1:
 		obj1.save()
 	else:
-		query =Order.objects.all()
-		for obj in query:
-			obj.save()
+		pass
+	
 
 
 
@@ -172,8 +179,17 @@ def delete_Docket(sender, instance,**kwargs):
 def timesheet_save_Docket(sender,created, instance,**kwargs):
 	obj=instance.docket
 	obj1=instance.order
+<<<<<<< HEAD
 	obj.save()
 	obj1.save()
+=======
+	if obj:
+		obj.save()
+	
+	if obj1:
+		obj1.save()
+	
+>>>>>>> a0f9c3ab29d1283bd7a1af1a9b8d0fa19c3b3c91
 
 
 @receiver(post_delete, sender=Time_Sheet)
@@ -185,8 +201,6 @@ def timesheet_delete_Docket(sender, instance,**kwargs):
 	obj2.save()
 
 	
-
-
 
 
 

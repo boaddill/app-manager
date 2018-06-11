@@ -1,0 +1,165 @@
+
+
+
+
+
+
+
+
+
+
+<table style="text-align: center;" width="100%" border="0"  class="table table-bordered ">
+  <tbody>
+    <tr  style="background:#B39609" >
+      
+      <th scope="col"> 
+       <span class="glyphicon glyphicon-cog"></span>
+      </th>
+      <th scope="col"                                                     >Code</th>
+      <th scope="col"                                                     >Unit</th>
+      <th style="min-width: 250px" scope="col"                            >{{scope.project.project_name}}</th>
+      <th class="scope" scope="col"                                       >Quantity[scope]</th>
+      <th style="display: none;"  class="invoice" scope="col"             >Quantity[Invoice]</th>
+      <th style="display: none;"  class="planif" scope="col"              >Quantity[Planif.]</th>
+      <th style="display: none;"  class="target" scope="col"              >Quantity[Target]</th>
+      <th style="display: none;"  class="real" scope="col"                >quantity[Real]</th>
+      <th                         class="scope " scope="col"><span        >Unitary Price</span><br><span></span> </th>
+      <th style="display: none;"  class="invoice " scope="col"><span      >Unitary Price[Invoice]</span><br><span></span> </th>
+      <th style="display: none;"  class="planif " scope="col"><span       >Unitary Price[Planif]</span><br><span></span> </th>
+      <th style="display: none;"  class="target " scope="col"><span       >Unitary Price[Target]</span><br><span></span> </th>
+      <th style="display: none;"  class="real " scope="col"><span         >Unitary Price[Real]</span><br><span></span> </th>
+      <th                         class="scope " scope="col"><span        >Total Price</span><br><span>{{scope.total_price}}</span> </th>
+      <th style="display: none;"  class="invoice" scope="col"><span       >Total Price[Invoice]</span><br><span>{{scope.total_price_invoice}}</span></th>
+      <th style="display: none;"  class="planif" scope="col"><span        >Total Price[Planif]</span><br><span>{{scope.total_price_planif}}</span></th>
+      <th style="display: none;"  class="target" scope="col"><span        >Total Price[Target]</span><br><span>{{scope.total_price_target}}</span></th>
+      <th style="display: none;"  class="real " scope="col"><span         >Total Price[Real]</span><br><span>{{scope.total_price_real}}</span></th>
+    </tr>
+
+
+
+
+
+
+
+    {% for  chapter in chapters  %}
+	 <tr  class='main' style="background:#AAC7A0">
+
+      <td style="width: 95px">                                                                                 
+         
+      <button id="" style="" class="btn btn-warning btn-xs" type="submit" class=""><span class="glyphicon glyphicon-pencil"></span> </button> 
+      <button data-url="{% url 'projects:chapter_delete' chapter.id %}" style="" class="btn btn-danger btn-xs js-delete-chapter" type="submit" class=""><span class="glyphicon glyphicon-trash"></span> </button> 
+      </td>
+      <td                                                                                 >{{chapter.code}}</td>
+      <td                                                                                 >{{chapter.units}}</td>
+      <td id="{{chapter.id}}" style="width: 100%; font-weight: bold; "  class='btn entry'>{{chapter.chapter_name|upper}}</td>
+      <td style=""                class="scope          "       >{{chapter.quantity_scope}}</td>
+      <td style="display: none;"  class="invoice       "        >{{chapter.quantity_invoice}}</td>
+      <td style="display: none;"  class="planif         "       >{{chapter.quantity_planif}}</td>
+      <td style="display: none;"  class="target          "      >{{chapter.quantity_target}}</td>
+      <td style="display: none;"  class="real           "       >{{chapter.quantity_real}}</td>
+      <th style=""  scope="col"   class="scope          "       >{{  chapter.price_unit_scope}}</th>
+      <th style="display: none;"  class="invoice"scope="col"    >{{  chapter.price_unit_invoice}}</th>
+      <th style="display: none;"  class="planif "scope="col"    >{{  chapter.price_unit_planif}}</th>
+      <th style="display: none;"  class="target" scope="col"    >{{  chapter.price_unit_target}}</th>
+      <th style="display: none;"  class="real  " scope="col"    >{{  chapter.price_unit_real}}</th>
+      <td                         class=" scope price  "        >{{chapter.total_price}}</td>
+      <td style="display: none;"  class="invoice       "        >{{chapter.total_price_invoice}}</td>
+      <td style="display: none;"  class="planif        "        >{{chapter.total_price_planif}}</td>
+      <td style="display: none;"  class="target        "        >{{chapter.total_price_target}}</td>
+      <td style="display: none;"  {% if  chapter.total_price_target <  chapter.total_price_real %}  class="real perdidas "   {%  elif   chapter.total_price_real <  chapter.total_price_target %} class="real ganacias  " {%  else  %}  class= 'real'{% endif %} >{{chapter.total_price_real}}</td>
+  </tr>
+     
+     
+
+
+      {% for  entry in chapter.entry_set.all  %}
+  <tr class="{{chapter.id}} "  style="background: lightgrey; font-size: 1em ;display: none;" >
+      <td style="width: 80px"> 
+         
+      <button id="" style="" class="btn btn-warning btn-xs" type="submit" class=""><span class="glyphicon glyphicon-pencil"></span> </button> 
+      <button id="" style="" class="btn btn-danger btn-xs" type="submit" class=""><span class="glyphicon glyphicon-trash"></span> </button> 
+      </td> 
+               
+      <td>{{entry.code}}</td>
+      <td>{{entry.units}}</td>
+      <td id='{{entry.id}}' style="width: 100% ;font-weight: bold;"  class='btn item' >{{entry.entry_name}}</td>
+      <td class="scope"                                       >{{entry.scope_quantity}}</td>
+      <td style="display: none;" class="invoice"              >{{chapter.quantity_invoice}}</td>
+      <td style="display: none;" class="planif "              >{{chapter.quantity_planif}}</td>
+      <td style="display: none;"  class="target"              > {{chapter.quantity_target}}</td>
+      <td style="display: none;"  class="real" >{{entry.real_quantity}}</td>
+      <td class=" scope price">{{entry.scope_unt_price}}</td>
+      <td style="display: none;" class="invoice ">{{entry.invoice_unt_price }}</td>
+      <td style="display: none;" class="planif ">{{entry.planif_unt_price }}</td>
+      <td style="display: none;" class=" target ">{{entry.target_unt_price }}</td>
+      <td style="display: none;" class=" real ">{{entry.real_unt_price }}</td>
+      <td class=" scope price">{{entry.scope_price}}</td>
+      <td style="display: none;" class="invoice">{{chapter.total_price_invoice}}</td>
+      <td style="display: none;" class="planif">{{chapter.total_price_planif}}</td>
+      <td style="display: none;"  class="target">{{chapter.total_price_target}}</td>
+      <td style="display: none;"  {% if  chapter.total_price_target <  chapter.total_price_real %}  class="real perdidas "   {%  elif   chapter.total_price_real <  chapter.total_price_target %} class="real ganacias " {%  else  %}  class= 'real'{% endif %} >{{entry.real_price}}</td>
+  </tr>
+
+      
+     
+
+  <tr  class='{{entry.id}}  entry-item'   style=" font-size: 0.9em ;display: none;" > 
+    <td style="width: 95px">                                                                                 
+      <button id="" style="" class="btn btn-primary btn-xs" type="submit" class=""><span class="glyphicon glyphicon-plus"></span> Entry </button>     
+       
+    </td>
+
+    <th>Code</th>
+    <th>Units</th> 
+    <th>Breakdown of {{entry.entry_name}} </th> 
+    <th class=" scope price"                                   >Quantity/Entry[scope]</th> 
+    <th style="display: none;"  class="target"                 >Quantity/Entry[Target]</th> 
+    <th style="display: none;"  class="real"                   >Quantity/Entry[Real]</th> 
+    <th class=" scope price"                                   >Item Price[Scope]</th>
+    <th style="display: none;"  class="real"                   >Item Price[Real]</th>
+    <th class=" scope price"                                   >Price/Entry unit[scope]</th> 
+    <th style="display: none;"  class="target"                 >Price/Entry unit[Target]</th>  
+    <th style="display: none;"  class="real"                   >Price/Entry unit[Real]</th>  
+      
+  </tr>
+
+    {% for it in entry.entry_item_price_set.all %}
+
+<tr  class='{{entry.id}}  entry-item'   style=" font-size: 0.9em ;display: none;" > 
+
+    <td style="width: 95px">                                                                                 
+         
+      <button id="" style="" class="btn btn-warning btn-xs" type="submit" class=""><span class="glyphicon glyphicon-pencil"></span> </button> 
+      <button id="" style="" class="btn btn-danger btn-xs" type="submit" class=""><span class="glyphicon glyphicon-trash"></span> </button> 
+    </td>
+    <td>{{it.item.code}}</td>
+    <td>{{it.item.unit}}</td>
+    <td>{{it.item.item_name}}</td>
+    <td class=" scope price"                        >{{it.quantity_per_entry_unit_scope  }}</td>
+    <td style="display: none;"  class="target"      >{{it.quantity_per_entry_unit_target }}</td>
+    <td style="display: none;"  class="real"        >{{it.quantity_per_entry_unit_real   }}</td>
+    <td class=" scope price"                        >{{it.item_price_scope}}</td>
+    <td style="display: none;"  class="real"        >{{it.item_price}}</td>
+    <td class=" scope price"                        >{{it.price_per_entry_unit_scope }}</td>
+    <td style="display: none;"  class="target"      >{{it.price_per_entry_unit_target   }}</td>
+    <td style="display: none;"  class="real"        >{{it.price_per_entry_unit_real}}</td>
+  
+</tr>    
+  
+    {% endfor %}
+    {% endfor %}
+    {% endfor %}
+      
+      </tbody>
+
+      </table>
+      
+
+
+
+
+
+
+
+
+

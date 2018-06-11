@@ -3,30 +3,32 @@ from decimal import Decimal
 
 
 class Seeder:
-
     def __init__(self):
-        self.chapter_name = []
+        self.chapter_name = ['Earth digging','Foundations','Reinforcing Steel',
+            'Carpentry','Steel works','Clading','Carpeting & Floring'
+            'Lining ','Plastering', 'Roofing','Painting',
+           ]
         self.entry_name = []
 
-    def append_chapters(self):
 
-        pass
 
-    def append_scope_entries(sef):
-        pass
+    
+    def append_scope_entries(self,project):
+        query = Entry.object.Filter(project=project)
 
-    def seed(self, id):
+        
 
+
+    def seed_chapters(self, scope_id):
         a=0
-        for i in self.chapter_name:
-            chapter_name = i
+        for element in self.chapter_name:
+            chapter_name = element
             a =a +1
-            scope        = Scope.objects.get(id=id)
+            scope        = Scope.objects.get(id=scope_id)
             chapter      = Chapter( code=a ,chapter_name=chapter_name, scope=scope)
             chapter.save()
-
-
 generator=Seeder()
+
 
 class Getter:
 
