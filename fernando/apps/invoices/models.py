@@ -11,6 +11,7 @@ class Item(models.Model):
 	unit             = models.CharField("Units", max_length=200, blank=True,null=True )
 	item_description = models.TextField("Item description", max_length=200, blank=True,null=True )
 	provider		 = models.ForeignKey('users.Profile_Provider',on_delete=models.CASCADE ,blank=True,null=True,verbose_name='Provider')
+
 	def __str__(self):
 		return self.item_name
 
@@ -138,9 +139,6 @@ class Time_Sheet(models.Model):
 		super(Time_Sheet,self).save()
 
 	
-
-
-
 #update Docket class
 @receiver(post_save, sender=Buying_Entry)
 def save_Docket(sender,created, instance,**kwargs):
@@ -149,15 +147,13 @@ def save_Docket(sender,created, instance,**kwargs):
 	if obj:
 		obj.save()
 	else:
-		query =Docket.objects.all()
-		for obj in query:
-			obj.save()
+		pass
+	
 	if obj1:
 		obj1.save()
 	else:
-		query =Order.objects.all()
-		for obj in query:
-			obj.save()
+		pass
+	
 
 
 @receiver(post_delete, sender=Buying_Entry)
@@ -177,16 +173,10 @@ def timesheet_save_Docket(sender,created, instance,**kwargs):
 	obj1=instance.order
 	if obj:
 		obj.save()
-	else:
-		query =Docket.objects.all()
-		for obj in query:
-			obj.save()
+	
 	if obj1:
 		obj1.save()
-	else:
-		query =Order.objects.all()
-		for obj in query:
-			obj.save()
+	
 
 
 @receiver(post_delete, sender=Time_Sheet)
@@ -200,8 +190,6 @@ def timesheet_delete_Docket(sender, instance,**kwargs):
 		obj2.save()
 
 	
-
-
 
 
 

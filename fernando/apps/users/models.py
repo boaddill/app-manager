@@ -85,12 +85,9 @@ class Profile_Provider(models.Model):
     def __str__(self):
         return   self.company_name
 
-
     class Meta:        
         verbose_name = "Provider Profile"
         verbose_name_plural = "Provider Profiles"
-
-
 
 
 class Profile_Employee(models.Model):

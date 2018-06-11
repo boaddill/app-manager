@@ -14,11 +14,13 @@ admin.site.register(Project, AdminProject)
 
 
 class AdminScope(admin.ModelAdmin):
-	list_display = ['id','code','project','date','total_price','total_price_real','valid_until']
+	list_display = ['id','code','project','date','total_price','total_price_invoice','total_price_target','total_price_real','valid_until']
 	#form = InvoiceForm
 	class Meta:
 		model =  Scope
 admin.site.register(Scope, AdminScope)
+
+
 
 
 class AdminChapter(admin.ModelAdmin):
@@ -29,7 +31,11 @@ class AdminChapter(admin.ModelAdmin):
 admin.site.register(Chapter, AdminChapter)
 
 class AdminEntry(admin.ModelAdmin):
-	list_display = ['code','entry_name','scope_unt_price','real_unt_price','scope_quantity','real_quantity','scope_price','real_price' , 'chapter']
+	list_display = ['code','units','entry_name','scope_unt_price','target_unt_price','real_unt_price',
+					'scope_quantity','real_quantity','scope_price','real_price' ,
+					 'chapter','risk_factor'
+
+					 ]
 	#form = InvoiceForm
 	class Meta:
 		model =  Entry
@@ -87,7 +93,7 @@ admin.site.register(Real_Meassurement, AdminScope_Real_Meassurement)
 
 
 class AdminEntry_Item_Price(admin.ModelAdmin):
-	list_display = ['item','quantity_per_entry_unit_scope','quantity_per_entry_unit_real','item_price','price_per_entry_unit','price_per_entry_unit_real','quantity_needed','entry','chapter']
+	list_display = ['item','quantity_per_entry_unit_scope',   'quantity_per_entry_unit_real','price_per_entry_unit_scope','item_price','price_per_entry_unit_real','quantity_needed','entry']
 	#form = InvoiceForm
 	class Meta:
 		model =  Entry_Item_Price

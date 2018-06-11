@@ -8,6 +8,7 @@
     <title></title>
     <link href="{% static 'css/bootstrap-3.3.7.css' %}" rel="stylesheet">
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -16,14 +17,19 @@
 {% block style %}
 {% endblock %}
 
-  <body>
+
+  <body style="">
+    
   
-    <div class="container">
+    <div class="container" style="width: 95%" >
       {% block content %}
       {% endblock %}
-    </div>
+    <div>
+
     <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>  
     <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/pepe.js' %}"></script>
+    <script src="{% static 'js/project.js' %}"></script>
     {% block javascript %}
     {% endblock %}
   </body>

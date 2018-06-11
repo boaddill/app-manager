@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'apps.quotes',
     'apps.invoices',
     'apps.projects',
+    'apps.offers',
     'apps.document_manager',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -126,7 +127,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
-
+DATE_INPUT_FORMATS = ['%d-%m-%Y']
 LANGUAGE_CODE = 'en-nz'
 
 TIME_ZONE = 'UTC'

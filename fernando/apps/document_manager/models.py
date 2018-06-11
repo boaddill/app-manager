@@ -28,14 +28,7 @@ class Document_Type(models.Model):
 
 
 class File(models.Model):
-	document_number  = models.CharField(max_length=30, blank=True,null=True ,verbose_name="Document number" )
-	file             = models.FileField( upload_to='documents/' )
-	uploaded_at      = models.DateTimeField( auto_now_add=True ) 
-	uploaded_by      = models.ForeignKey(User,on_delete=models.CASCADE,default='uploader', verbose_name="uploader")
-	project          = models.ForeignKey(Project,on_delete=models.CASCADE, blank=True,null=True ,verbose_name="Project")
-	document_type    = models.ForeignKey(Document_Type,on_delete=models.CASCADE, blank=True,null=True ,verbose_name="Document type")
-
-
+	pass
 
 	
 	

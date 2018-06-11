@@ -12,7 +12,7 @@
  <link rel="stylesheet" type="text/css" href="{% static 'css/mystyle.css' %}">
  <style type="text/css">
 
- li {
+ .pepe li {
   
   
   display: inline-block;
@@ -40,15 +40,16 @@ ul {
 
 {% block content %}
   
-<div style="width: 95%; ">
+<div style="background: white ;padding: 7px " >
   <div id="main-menu">
-    <ul>
+    <ul class="pepe">
       <li>Home</li>
+      <li>Projects</li>
       <li>Clients </li>
       <li>Employes</li>
       <li>Providers</li>
       <li>Financial</li>
-      <li>Timesheet</li>
+      <li>Timesheets</li>
     </ul>
   </div>  
 
@@ -88,7 +89,9 @@ ul {
     </thead>
 
     <tbody>
+     
       {% include 'projects/partial_project_list.html' %}
+
     </tbody>
   </table>
 

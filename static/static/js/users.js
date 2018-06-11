@@ -33,18 +33,11 @@ $(function () {
 
 
           $( "tr td:lt(5) " ).css( "background-color", "#FAB1FA" );
-
-        };
+       };
 
         }
-
-
-
-
         else {
-
-
-          $("#modal-book .modal-content").html(data.html_form);
+         $("#modal-book .modal-content").html(data.html_form);
         }
       }
     });
