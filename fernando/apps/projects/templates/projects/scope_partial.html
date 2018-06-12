@@ -58,8 +58,16 @@ a {
 
       <td style="width: 95px">                                                                                 
          
+<<<<<<< HEAD
+      <button data-url="{% url 'projects:chapter_update' id=chapter.id %}" id="" style="" class="btn btn-warning btn-xs js-update-chapter" type="submit" class=""><span class="glyphicon glyphicon-pencil"></span> </button> 
+
+
+=======
       <button data-url="{% url 'projects:chapter_update' chapter.id %}" id="" style="" class="btn btn-warning btn-xs js-update-chapter" type="submit" class=""><span class="glyphicon glyphicon-pencil"></span> </button> 
+>>>>>>> adec64c
       <button data-url="{% url 'projects:chapter_delete' chapter.id %}" style="" class="btn btn-danger btn-xs js-delete-chapter" type="submit" class=""><span class="glyphicon glyphicon-trash"></span> </button> 
+
+
       </td>
       <td                                                                                 >{{chapter.code}}</td>
       <td                                                                                 >{{chapter.units}}</td>
