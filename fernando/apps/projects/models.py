@@ -317,7 +317,6 @@ class Chapter (models.Model):
 	class Meta:        
 		ordering = ['code']
 
-<<<<<<< HEAD
 	
 
 
@@ -332,12 +331,12 @@ class Task (models.Model):
 	
 
 class Entry (models.Model):
-=======
+
 	def save(self):
 		self.quantity_target = self.quantity_scope
 		self.quantity_planif = self.quantity_scope
 		
->>>>>>> lorena
+
 
 
 		#scope

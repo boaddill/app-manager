@@ -187,15 +187,15 @@ def save_chapter_form(request, form, template_name, id):
 
 @superuser				
 def chapter_create(request ,**kwargs):
-<<<<<<< HEAD
+
 	scope_id = kwargs['id']
 	scope = get_object_or_404(Scope , id=scope_id)
 	initial =scope
-=======
+
 	id=kwargs['id']
 	scope = get_object_or_404(Scope , id=id)
 	
->>>>>>> adec64c
+
 	print (scope)
 	if request.method == 'POST':
 		form = Chapter_Creation_Form(request.POST)
@@ -206,15 +206,10 @@ def chapter_create(request ,**kwargs):
 
 @superuser
 def chapter_update(request, id):
-<<<<<<< HEAD
-    chapter = get_object_or_404(Chapter, id=id)
-    if request.method == 'POST':
-        form = Chapter_Creation_Form(request.POST, instance=chapter)
-    else:
-        form = Chapter_Creation_Form(instance=chapter)
-    return save_chapter_form(request, form, 'projects/chapters/partial_chapter_update.html' ,id)
 
-=======
+   
+
+
 	data=dict()
 	chapter = get_object_or_404(Chapter, id=id)
 	scope       = Scope.objects.get(chapter=chapter)
@@ -239,7 +234,7 @@ def chapter_update(request, id):
 	form = Chapter_Creation_Form(instance=chapter)
 	data['html_form'] = render_to_string('projects/chapters/partial_chapter_update.html', {'form':form} , request=request)
 	return JsonResponse(data)
->>>>>>> adec64c
+
 
 @superuser
 def chapter_delete(request, id):

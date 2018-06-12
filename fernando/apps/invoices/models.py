@@ -143,12 +143,12 @@ class Time_Sheet(models.Model):
 		super(Time_Sheet,self).save()
 
 	
-<<<<<<< HEAD
+
 
 	
-=======
+
 #update Docket class
->>>>>>> a0f9c3ab29d1283bd7a1af1a9b8d0fa19c3b3c91
+
 @receiver(post_save, sender=Buying_Entry)
 def save_Docket(sender,created, instance,**kwargs):
 	obj=instance.docket
@@ -179,17 +179,17 @@ def delete_Docket(sender, instance,**kwargs):
 def timesheet_save_Docket(sender,created, instance,**kwargs):
 	obj=instance.docket
 	obj1=instance.order
-<<<<<<< HEAD
+
 	obj.save()
 	obj1.save()
-=======
+
 	if obj:
 		obj.save()
 	
 	if obj1:
 		obj1.save()
 	
->>>>>>> a0f9c3ab29d1283bd7a1af1a9b8d0fa19c3b3c91
+
 
 
 @receiver(post_delete, sender=Time_Sheet)
