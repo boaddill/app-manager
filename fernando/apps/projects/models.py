@@ -318,6 +318,9 @@ class Chapter (models.Model):
 		ordering = ['code']
 
 	def save(self):
+		self.quantity_target = self.quantity_scope
+		self.quantity_planif = self.quantity_scope
+		
 
 		
 
@@ -598,9 +601,11 @@ class Entry_Item_Price(models.Model):
 	entry                             = models.ForeignKey(Entry, on_delete=models.CASCADE ,null=True,verbose_name="Entry")
 	project                           = models.ForeignKey(Project, on_delete=models.CASCADE ,blank=True, null=True,verbose_name="Project")
 
-
 	def __str__(self):
-		return "%s - %s" %(self.item.item_name ,self.entry.project.project_name)
+		return "%s - %s -%s" %(self.item.item_name ,self.entry.project.project_name,self.entry.entry_name )
+
+	class Meta:
+		ordering = ["item"]
 
 	def save(self):
 

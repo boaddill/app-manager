@@ -187,20 +187,26 @@ def save_chapter_form(request, form, template_name, id):
 
 @superuser				
 def chapter_create(request ,**kwargs):
+<<<<<<< HEAD
 	scope_id = kwargs['id']
 	scope = get_object_or_404(Scope , id=scope_id)
 	initial =scope
+=======
+	id=kwargs['id']
+	scope = get_object_or_404(Scope , id=id)
+	
+>>>>>>> adec64c
 	print (scope)
 	if request.method == 'POST':
 		form = Chapter_Creation_Form(request.POST)
 		
 	else:
-		form = Chapter_Creation_Form(initial={'scope':scope})
+		form = Chapter_Creation_Form()
 	return save_chapter_form(request, form, 'projects/chapters/partial_chapter_create.html',id)
-
 
 @superuser
 def chapter_update(request, id):
+<<<<<<< HEAD
     chapter = get_object_or_404(Chapter, id=id)
     if request.method == 'POST':
         form = Chapter_Creation_Form(request.POST, instance=chapter)
@@ -208,6 +214,32 @@ def chapter_update(request, id):
         form = Chapter_Creation_Form(instance=chapter)
     return save_chapter_form(request, form, 'projects/chapters/partial_chapter_update.html' ,id)
 
+=======
+	data=dict()
+	chapter = get_object_or_404(Chapter, id=id)
+	scope       = Scope.objects.get(chapter=chapter)
+	user        = get_object_or_404(User , email=request.user.email)
+	project     = scope.project
+	chapters    = Chapter.objects.filter(scope=scope)
+	context={
+        		'project':project,
+				'scope':scope,
+				'chapters':chapters,
+				'user':user
+				}
+	if request.method == 'POST':
+		form = Chapter_Creation_Form(request.POST, instance=chapter)
+		if form.is_valid():
+			chapter.save()
+			data['form_is_valid'] = True  # This is just to play along with the existing code
+			data['html_scope'] = render_to_string('projects/scope_partial.html', context)
+
+		else:
+			data['form_is_valid'] = False
+	form = Chapter_Creation_Form(instance=chapter)
+	data['html_form'] = render_to_string('projects/chapters/partial_chapter_update.html', {'form':form} , request=request)
+	return JsonResponse(data)
+>>>>>>> adec64c
 
 @superuser
 def chapter_delete(request, id):

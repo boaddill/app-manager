@@ -2,8 +2,12 @@ import re
 from django.urls import path
 from  .views import  (project_list,project_detail,
 					 project_create,
+<<<<<<< HEAD
 					 scope_detail,chapter_create,chapter_delete,
 					 chapter_update
+=======
+					 scope_detail,chapter_create,chapter_delete,chapter_update
+>>>>>>> adec64c
 
 )
 
