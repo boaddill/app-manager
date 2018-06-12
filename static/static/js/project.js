@@ -37,7 +37,7 @@ $(function () {
   $("#modal-chapter").on("submit", ".js-chapter-create-form", saveForm);
 
   // Update book
-  $("#book-table").on("click", ".js-update-chapter", loadForm);
+  $("#project-container").on("click", ".js-update-chapter", loadForm);
   $("#modal-chapter").on("submit", ".js-chapter-update-form", saveForm);
 
   $("#project-container").on("click", ".js-delete-chapter", loadForm);

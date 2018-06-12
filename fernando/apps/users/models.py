@@ -82,6 +82,7 @@ class Profile_Provider(models.Model):
     contact_person1   = models.CharField(max_length=30, blank=True)
     contact_person2   = models.CharField(max_length=30, blank=True)
 
+
     def __str__(self):
         return   self.company_name
 
