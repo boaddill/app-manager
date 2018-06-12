@@ -197,25 +197,41 @@ def save_chapter_form(request, form, template_name, id):
 def chapter_create(request ,**kwargs):
 	id=kwargs['id']
 	scope = get_object_or_404(Scope , id=id)
-	initial =scope
+	
 	print (scope)
 	if request.method == 'POST':
 		form = Chapter_Creation_Form(request.POST)
 		
 	else:
-		form = Chapter_Creation_Form(initial={'scope':scope})
+		form = Chapter_Creation_Form()
 	return save_chapter_form(request, form, 'projects/chapters/partial_chapter_create.html',id)
-
 
 @superuser
 def chapter_update(request, id):
-    user = get_object_or_404(User, id=id)
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST, instance=user)
-    else:
-        form = UserCreationForm(instance=user)
-    return save_user_form(request, form, 'users/partial_user_update.html','update' ,id)
+	data=dict()
+	chapter = get_object_or_404(Chapter, id=id)
+	scope       = Scope.objects.get(chapter=chapter)
+	user        = get_object_or_404(User , email=request.user.email)
+	project     = scope.project
+	chapters    = Chapter.objects.filter(scope=scope)
+	context={
+        		'project':project,
+				'scope':scope,
+				'chapters':chapters,
+				'user':user
+				}
+	if request.method == 'POST':
+		form = Chapter_Creation_Form(request.POST, instance=chapter)
+		if form.is_valid():
+			chapter.save()
+			data['form_is_valid'] = True  # This is just to play along with the existing code
+			data['html_scope'] = render_to_string('projects/scope_partial.html', context)
 
+		else:
+			data['form_is_valid'] = False
+	form = Chapter_Creation_Form(instance=chapter)
+	data['html_form'] = render_to_string('projects/chapters/partial_chapter_update.html', {'form':form} , request=request)
+	return JsonResponse(data)
 
 @superuser
 def chapter_delete(request, id):
