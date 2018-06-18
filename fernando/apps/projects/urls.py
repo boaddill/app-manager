@@ -3,6 +3,9 @@ from django.urls import path
 from  .views import  (project_list,project_detail,
 					 project_create,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c91cb4386d590368f205d60686c8801180347e3f
 
 					 scope_detail,chapter_create,chapter_delete,
 					 chapter_update,
@@ -16,6 +19,7 @@ from  .views import  (project_list,project_detail,
                       
                      
 >>>>>>> fernando
+
 
 
 )
