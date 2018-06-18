@@ -1,0 +1,44 @@
+{% load static %}
+{% block style %}
+<style type="text/css">
+  input {
+    border: none;
+    width: 100%;
+  }
+  input #coments {
+    
+  }
+
+</style>
+
+{% endblock %}
+
+
+
+<form style="margin-bottom: 20px ;margin: 0px" method="post"
+   action=  "{% url 'projects:meassurement_create' id=entry.id %}"  
+   class="js-meassurement-create-form">
+  {% csrf_token %}
+
+<table style="text-align: center; margin: 0px " border="0"  class="table table-bordered ">
+
+    <tr id='{{entry.id}}'>
+        <td id="coments" style="width: 40.5% "><input placeholder="coments" type="text" name="coments" maxlength="200" id="id_coments">  </td>
+        <td><input placeholder="loc" type="text" name="location" maxlength="10" id="id_ud_type">  </td>
+
+
+
+        <td><input placeholder="Units" type="text" name="ud_type" maxlength="200" id="id_ud_type">  </td>
+        <td><input placeholder="Quantity" type="number" name="quantity" step="1" id="id_quantity"> </td>
+        <td><input placeholder="Width" type="number" name="width" step="1" id="id_width">    </td>
+        <td><input placeholder="high" type="number" name="high" step="1" id="id_high">     </td>
+        <td><input placeholder="Wide" type="number" name="wide" step="" id="id_wide">     </td>
+       
+        <td>
+          {{form.phase}}       
+        </td>
+    </tr>
+
+</table>
+
+</form>

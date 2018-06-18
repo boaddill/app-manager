@@ -1,0 +1,36 @@
+{% load static %}
+{% block style %}
+<style type="text/css">
+  input {
+    border: none;
+    width: 100%;
+  }
+  input #coments {
+    
+  }
+
+</style>
+
+{% endblock %}
+
+<form style="margin-bottom: 20px ;margin: 0px" method="post"
+   action=  "{% url 'projects:meassurement_create' id=entry.id %}"  
+   class="js-meassurement-create-form">
+  {% csrf_token %}
+
+<table style="text-align: center; margin: 0px " border="0"  class="table table-bordered ">
+    <tr id='{{entry.id}}'>
+        <td>Item</td>
+        <td>Quantity/Unit[Scope]</td>
+        <td>Item Price </td>
+    </tr>
+
+    <tr id='{{entry.id}}'>
+        <td>{{ form.item}}</td>
+        <td>{{ form.quantity_per_entry_unit_scope}}</td>
+        <td>{{ form.item_price }} </td>
+    </tr>
+
+</table>
+
+</form>

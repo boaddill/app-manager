@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import *
-from .forms import  Project_Creation_Form,Chapter_Creation_Form
+from .forms import  Project_Creation_Form,Chapter_Creation_Form, Meassurement_Creation_Form
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404
@@ -259,6 +259,124 @@ def chapter_delete(request, id):
         context = {'chapter':chapter}
         data['html_form'] = render_to_string('projects/chapters/partial_chapter_delete.html', context, request=request,)
     return JsonResponse(data)
+
+####MEASSUREMENTS
+#####################################################
+
+
+@superuser
+def meassurement_scope(request , **kwargs):
+
+	template = 'projects/meassurements/meassurement_list.html'
+	id_entry =kwargs['id']
+	entry = get_object_or_404(Entry, id=id_entry)
+	meassurement_list =  Scope_Meassurement.objects.filter(entry=entry).order_by('id')
+	context ={
+			'entry':entry,
+			"meassurement_list":meassurement_list
+	}
+	return render (request , template, context)
+
+
+#crear mediciones ajax
+@superuser			
+def meassurement_create(request ,**kwargs):
+	data=dict()
+	id_entry =kwargs['id']
+	entry       = get_object_or_404(Entry, id=id_entry)
+	meassurements =Scope_Meassurement.objects.filter(entry=entry)
+	context={
+        		'entry':entry,
+				'meassurement_list':meassurements
+				}
+	if request.method == 'POST':
+		form = Meassurement_Creation_Form(request.POST)
+		
+		if form.is_valid():
+
+			obj=form.save(commit=False)
+			if obj.quantity == None and obj.coments == None:
+				data['form_is_valid'] = True
+				meassurement_list = Scope_Meassurement.objects.filter(entry=entry)
+				data['html_meassurements'] = render_to_string('projects/meassurements/partial_meassurements.html',
+																{'meassurement_list':meassurement_list,
+																'entry':entry })
+			else:
+				obj.entry=entry
+				obj.save()
+				meassurement_list = Scope_Meassurement.objects.filter(entry=entry)
+
+				data['form_is_valid'] = True  # This is just to play along with the existing code
+				data['html_meassurements'] = render_to_string('projects/meassurements/partial_meassurements.html',
+																{'meassurement_list':meassurement_list,
+																'entry':entry })
+
+		else:
+			data['form_is_valid'] = False
+	form = Meassurement_Creation_Form()
+	data['html_form'] = render_to_string('projects/meassurements/meassurement_scope_form.html',
+										 {'form':form ,'entry':entry} , 
+										 request=request)
+	return JsonResponse(data)
+
+@superuser
+def meassurement_delete(request ,**kwargs):
+
+	data = dict()
+	id_meassurement   = kwargs['id_meassurement']
+	id_entry          = kwargs['id_entry']
+	entry             = get_object_or_404(Entry, id=id_entry)
+	meassurement      = get_object_or_404(Scope_Meassurement, id=id_meassurement)
+	meassurements     = Scope_Meassurement.objects.filter(entry=entry)
+	
+	if request.method == 'GET':
+		meassurement.delete()
+		
+
+		meassurement_list = Scope_Meassurement.objects.filter(entry=entry)
+	
+		data['html_meassurements'] = render_to_string('projects/meassurements/partial_meassurements.html',
+														{'meassurement_list' : meassurement_list,
+														'entry':entry },
+														request=request)
+	if  request.method == 'POST':
+		meassurement.delete()
+		meassurement_list = Scope_Meassurement.objects.filter(entry=entry)
+	
+		data['html_meassurements'] = render_to_string('projects/meassurements/partial_meassurements.html',
+														{'meassurement_list' : meassurement_list,
+														'entry':entry },
+														request=request)
+
+	return JsonResponse(data)
+
+
+
+################################################## ENTRY ITEMS
+
+def entry_item_create (request, **kwargs):
+	pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

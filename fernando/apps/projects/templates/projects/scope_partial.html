@@ -4,8 +4,6 @@
   
 a {
   color: white;
-
-
 }
 
 
@@ -47,19 +45,22 @@ a {
       <th style="display: none;"  class="real " scope="col"><span         >Total Price[Real]</span><br><span>{{scope.total_price_real}}</span></th>
     </tr>
 
-
-
-
-
-
-
     {% for  chapter in chapters  %}
-	 <tr  class='main' style="background:#AAC7A0">
 
-      <td style="width: 95px">                                                                                 
-         
-      <button data-url="{% url 'projects:chapter_update' chapter.id %}" id="" style="" class="btn btn-warning btn-xs js-update-chapter" type="submit" class=""><span class="glyphicon glyphicon-pencil"></span> </button> 
-      <button data-url="{% url 'projects:chapter_delete' chapter.id %}" style="" class="btn btn-danger btn-xs js-delete-chapter" type="submit" class=""><span class="glyphicon glyphicon-trash"></span> </button> 
+
+	    <tr  class='main' style="background:#AAC7A0">
+
+      <td style="width: 95px">                                                   
+        <button 
+      data-url="{% url 'projects:chapter_update' chapter.id %}" 
+      id="" style="" class="btn btn-warning btn-xs js-update-chapter" type="submit" class="">
+      <span class="glyphicon glyphicon-pencil"></span> 
+       </button> 
+        <button 
+      data-url="{% url 'projects:chapter_delete' chapter.id %}" 
+      style="" class="btn btn-danger btn-xs js-delete-chapter" type="submit" class="">
+      <span class="glyphicon glyphicon-trash"></span> 
+      </button> 
       </td>
       <td                                                                                 >{{chapter.code}}</td>
       <td                                                                                 >{{chapter.units}}</td>
@@ -79,29 +80,72 @@ a {
       <td style="display: none;"  class="planif        "        >{{chapter.total_price_planif}}</td>
       <td style="display: none;"  class="target        "        >{{chapter.total_price_target}}</td>
       <td style="display: none;"  {% if  chapter.total_price_target <  chapter.total_price_real %}  class="real perdidas "   {%  elif   chapter.total_price_real <  chapter.total_price_target %} class="real ganacias  " {%  else  %}  class= 'real'{% endif %} >{{chapter.total_price_real}}</td>
+
+</tr>
+  <tr class="{{chapter.id}} " style="display: none;">
+    <td style="width: 95px">                                                                                 
+      <button 
+      id="" 
+      style="" 
+      class="btn btn-primary btn-xs" 
+      type="submit" class="">
+      <span class="glyphicon glyphicon-plus"></span>Entry 
+    </button>     
+    <td colspan="4" >   ENTRIES OF {{ chapter.chapter_name|upper}}</td>
+
   </tr>
      
-     
-
 
       {% for  entry in chapter.entry_set.all  %}
+
+
   <tr class="{{chapter.id}} "  style="background: lightgrey; font-size: 1em ;display: none;" >
       <td style="width: 80px"> 
          
-      <button id="" style="" class="btn btn-warning btn-xs" type="submit" class=""><span class="glyphicon glyphicon-pencil"></span> </button> 
-      <button id="" style="" class="btn btn-danger btn-xs" type="submit" class=""><span class="glyphicon glyphicon-trash"></span> </button> 
+      <button 
+      id="" 
+      style="" 
+      name="{{entry.entry_name}}"
+      class="btn btn-warning btn-xs" 
+      type="" class="">
+      <span class="glyphicon glyphicon-pencil"></span> 
+      </button> 
+      <button id="" style="" class="btn btn-danger btn-xs" type="submit" class="">
+      <span class="glyphicon glyphicon-trash"></span> 
+     </button> 
       </td> 
                
       <td>                                                                             {{entry.code}}</td>
-      <td                                                                             >{{entry.units}}</td>
+      <td>                                                                            {{entry.units}}</td>
       <td id='{{entry.id}}' style="width: 100% ;font-weight: bold;"  class='btn item' >{{entry.entry_name}}</td>
-      <td class="scope"                                                               ><button id="" style=" float: left;" class="btn btn-warning btn-xs" type="submit" class=""><a style="" href="http://google.com" target=”_blank”><span class="glyphicon glyphicon-list"></span></a> </button>                                                                                 {{entry.scope_quantity}}</td>
+      <td class="scope">
+        <button 
+         data-url="{% url 'projects:meassurement_scope' entry.id %}"
+         name="{{entry.entry_name}}"
+        id=" meassurement_scope " 
+        style=" float: left;" 
+        class="btn btn-warning btn-xs  meassurement_scope" 
+        type="submit" class=""    
+       
+        ><span class="glyphicon glyphicon-list"></span> 
+        </button>                                                                                {{entry.scope_quantity}}</td>
       <td style="display: none;" class="invoice" ><button id="" style=" float: left;" class="btn btn-warning btn-xs" type="submit" class=""><span class="glyphicon glyphicon-list"></span> </button>        {{entry.invoice_quantity}}</td>
 
 
       <td style="display: none;" class="planif "                                      ><button id="" style=" float: left;" class="btn btn-warning btn-xs" type="submit" class=""><span class="glyphicon glyphicon-list"></span> </button> {{entry.planif_quantity}}</td>
       <td style="display: none;"  class="target"                                      ><button id="" style=" float: left;" class="btn btn-warning btn-xs" type="submit" class=""><span class="glyphicon glyphicon-list"></span> </button> {{entry.target_quantity}}</td>
-      <td style="display: none;"  class="real"                                        ><button id="" style=" float: left;" class="btn btn-warning btn-xs" type="submit" class=""><span class="glyphicon glyphicon-list"></span> </button>                                                         {{entry.real_quantity}}</td>
+      <td style="display: none;"  class="real"> 
+         <button 
+         data-url=""
+         name="{{entry.entry_name}}"
+        id=" meassurement_real " 
+        style=" float: left;" 
+        class="btn btn-warning btn-xs  meassurement_real " 
+        type="submit"    
+       
+        ><span class="glyphicon glyphicon-list"></span> 
+        </button>    
+      {{entry.real_quantity}}</td>
       <td class=" scope price"                                >{{entry.scope_unt_price}}</td>
       <td style="display: none;" class="invoice "             >{{entry.invoice_unt_price }}</td>
       <td style="display: none;" class="planif "              >{{entry.planif_unt_price }}</td>
@@ -119,7 +163,13 @@ a {
 
   <tr  class='{{entry.id}}  entry-item'   style=" font-size: 0.9em ;display: none;" > 
     <td style="width: 95px">                                                                                 
-      <button id="" style="" class="btn btn-primary btn-xs" type="submit" class=""><span class="glyphicon glyphicon-plus"></span>Item </button>     
+      <button 
+      id="" 
+      style="" 
+      class="btn btn-primary btn-xs" 
+      type="submit" class="">
+      <span class="glyphicon glyphicon-plus"></span>Item 
+    </button>     
        
     </td>
 
@@ -162,6 +212,12 @@ a {
   
     {% endfor %}
     {% endfor %}
+
+     </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7" class="text-center bg-warning">No Chapters</td>
+        </tr>
     {% endfor %}
       
       </tbody>

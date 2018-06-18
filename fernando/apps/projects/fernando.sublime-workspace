@@ -4,8 +4,40 @@
 		"selected_items":
 		[
 			[
+				"M",
+				"ModelForm"
+			],
+			[
+				"me",
+				"method"
+			],
+			[
 				"id",
-				"id_scope"
+				"id"
+			],
+			[
+				"pa",
+				"placeholder\tAttr"
+			],
+			[
+				"c",
+				"coments"
+			],
+			[
+				"min",
+				"min-width\tproperty"
+			],
+			[
+				"margi",
+				"margin-top\tproperty"
+			],
+			[
+				"t",
+				"td\tTag"
+			],
+			[
+				"re",
+				"request"
 			],
 			[
 				"get",
@@ -62,10 +94,6 @@
 			[
 				"ge",
 				"get_object_or_404"
-			],
-			[
-				"c",
-				"class"
 			],
 			[
 				"d",
@@ -204,10 +232,6 @@
 				"Project"
 			],
 			[
-				"me",
-				"Meassurement"
-			],
-			[
 				"Sc",
 				"Scope_Meassurements"
 			],
@@ -260,10 +284,6 @@
 				"models"
 			],
 			[
-				"M",
-				"Model"
-			],
-			[
 				"us",
 				"user"
 			],
@@ -280,10 +300,6 @@
 				"action\tAttr"
 			],
 			[
-				"margi",
-				"margin-top"
-			],
-			[
 				"http",
 				"HttpResponse"
 			],
@@ -294,10 +310,6 @@
 			[
 				"da",
 				"data_json"
-			],
-			[
-				"re",
-				"results"
 			],
 			[
 				"o",
@@ -380,10 +392,6 @@
 				"textvariable"
 			],
 			[
-				"t",
-				"Tkinter"
-			],
-			[
 				"ve",
 				"ventana_principal"
 			],
@@ -396,11 +404,51 @@
 	"buffers":
 	[
 		{
-			"file": "templates/projects/scope_partial.html",
+			"contents": "from django.shortcuts import render\nfrom .models import *\nfrom .forms import  Project_Creation_Form,Chapter_Creation_Form, Meassurement_Creation_Form\nfrom django.db.models import Q\nfrom django.core.paginator import Paginator, EmptyPage, PageNotAnInteger\nfrom django.shortcuts import get_object_or_404\nfrom apps.users.decorators import superuser,is_client\nfrom django.contrib.auth.decorators import login_required\nfrom apps.users.models import User, Profile_Employee\nfrom django.shortcuts import redirect\nfrom django.template.loader import render_to_string\nfrom django.http import JsonResponse\n\n@superuser\ndef project_list(request, **kwargs):\n\tuser    = Project.objects.all().order_by('-date')\n\ttemplate = 'projects/project_list.html'\n\tquery = request.GET.get('q', \"\")\n\tif query:\n\t\tuser=user.filter(\n        \tQ(project_name__icontains=query)|\n        \tQ(client__icontains=query)|\n        \tq(project_manager__icontains=query)\n            )\n\tpaginator = Paginator(user, 10)\n\tpage = request.GET.get('page', 1)\n\ttry:\n\t\tusers = paginator.page(page)\n\texcept PageNotAnInteger:\n\t\tusers = paginator.page(1)\n\texcept EmptyPage:\n\t\tusers = paginator.page(paginator.num_pages)\n\treturn render(request, template, {'projects': users})\n\n\n@superuser\ndef project_detail(request,**kwargs):\n\ttemplate = 'projects/project_detail.html'\n\tobj = get_object_or_404(Project, id=kwargs['id'])\n\tcontext = {'obj':obj}\n\treturn render( request, template, context)\n\n\ndef project_create(request, **kwargs):\n\ttemplate= 'projects/project_create.html'\n\n\tobj = get_object_or_404(Project, id=kwargs['id'])\n\tif request.method == 'POST':\n\t\tform = Project_Creation_Form(request.POST, instance=obj )\n\t\tif form.is_valid():\n\t\t\tit=form.save(commit =False)\n\n\t\t\tproject_manager     =form.cleaned_data['project_manager']\n\t\t\t\n\t\t\tsite_manager        =form.cleaned_data['site_manager']\n\t\t\tquantity_surveyor   =form.cleaned_data['quantity_surveyor']\n\t\t\tforeman             =form.cleaned_data['foreman']\n\t\t\tclient              = form.cleaned_data['client']\n\t\t\tit.save()\n\t\t\tfo =it.foreman.all()\n\t\t\tsm = it.site_manager.all()\n\t\t\tqs = it.quantity_surveyor.all()\n\t\t\tpm = it.project_manager.all()\n\t\t\tif site_manager:\t\n\t\t\t\tfor obj in site_manager:\n\t\t\t\t\tif obj in sm:\n\t\t\t\t\t\tpass\n\t\t\t\t\telse:\n\t\t\t\t\t\tit.site_manager.add(obj)\n\t\t\telif  not site_manager:\n\t\t\t\tfor obj in sm:\n\t\t\t\t\tit.site_manager.remove(obj)\n\n\t\t\tfor obj in sm:\n\t\t\t\tif obj in site_manager:\n\t\t\t\t\tpass\n\t\t\t\telse:\n\t\t\t\t\tit.site_manager.remove(obj)\n\t\t\telse:\n\t\t\t\tpass\n\t\t\t\n\n\t\t\tif quantity_surveyor:\t\n\t\t\t\tfor obj in quantity_surveyor:\n\t\t\t\t\tif obj in qs :\n\t\t\t\t\t\tpass\n\t\t\t\t\telse:\n\t\t\t\t\t\tit.quantity_surveyor.add(obj)\n\t\t\telif  not foreman:\n\t\t\t\tfor obj in fo:\n\t\t\t\t\tit.foreman.remove(obj)\n\n\t\t\tfor obj in qs:\n\t\t\t\tif obj in quantity_surveyor:\n\t\t\t\t\tpass\n\t\t\t\telse:\n\t\t\t\t\tit.quantity_surveyor.remove(obj)\n\t\t\telse:\n\t\t\t\tpass\n\n\t\t\tif foreman:\t\n\t\t\t\tfor obj in foreman:\n\t\t\t\t\tif obj in fo :\n\t\t\t\t\t\tpass\n\t\t\t\t\telse:\n\t\t\t\t\t\tit.foreman.add(obj)\n\t\t\telif  not foreman:\n\t\t\t\tfor obj in fo:\n\t\t\t\t\tit.foreman.remove(obj)\n\n\t\t\tfor obj in fo:\n\t\t\t\tif obj in foreman:\n\t\t\t\t\tpass\n\t\t\t\telse:\n\t\t\t\t\tit.foreman.remove(obj)\n\t\t\telse:\n\t\t\t\tpass\n\n\n\t\t\tif project_manager:\t\n\t\t\t\tfor obj in project_manager:\n\t\t\t\t\tif obj in pm :\n\t\t\t\t\t\tpass\n\t\t\t\t\telse:\n\t\t\t\t\t\tit.project_manager.add(obj)\n\t\t\telif  not project_manager:\n\t\t\t\tfor obj in pm:\n\t\t\t\t\tit.project_manager.remove(obj)\n\n\t\t\tfor obj in pm :\n\t\t\t\tif obj in project_manager:\n\t\t\t\t\tpass\n\t\t\t\telse:\n\t\t\t\t\tit.project_manager.remove(obj)\n\t\t\telse:\n\t\t\t\tpass\t\n\t\treturn redirect ('projects:project_create' ,id=kwargs['id'])\n\telse:\n\t\t\n\t\tform=Project_Creation_Form(instance=obj)\n\t\tcontext = {'form':form ,'obj':obj}\n\n\t\treturn render(request, template, context)\n\n\n@superuser\ndef scope_detail(request,**kwargs):\n\n\ttemplate   = 'projects/scope.html'\n\n\n\tproject     = get_object_or_404(Project, id=kwargs['id'])\n\tscope       = Scope.objects.get(project=project)\n\tchapters    = Chapter.objects.filter(scope=scope)\n\tuser        = get_object_or_404(User , email=request.user.email)\n\n\tcontext={\n\t\t\t\t\n\t\t\t\t'project':project,\n\t\t\t\t'scope':scope,\n\t\t\t\t'chapters':chapters,\n\t\t\t\t'user':user\n\t\t\t\n\t}\n\n\treturn render(request,template, context )\n\ndef save_chapter_form(request, form, template_name, id):\n    data = dict()\n   \n    if request.method == 'POST':\n        if form.is_valid():\n        \tscope = get_object_or_404(Scope , id=id)\n        \tpp=form.save(commit=False)\n        \tpp.scope=scope\n        \tpp.save()\n        \tchapters    = Chapter.objects.filter(scope=scope)\n        \tproject     =scope.project\n        \tuser        = get_object_or_404(User , email=request.user.email)\n\n        \tcontext={\n        \t\t'project':project,\n\t\t\t\t'scope':scope,\n\t\t\t\t'chapters':chapters,\n\t\t\t\t'user':user}\n        \tdata['form_is_valid'] = True\n\n        \tdata['html_scope'] = render_to_string('projects/scope_partial.html', context)\n        else:\n            data['form_is_valid'] = False\n    context = {'form': form , 'id':id}\n    print(id)\n    data['html_form'] = render_to_string(template_name, context, request=request)\n    return JsonResponse(data)\n\n@superuser\t\t\t\t\ndef chapter_create(request ,**kwargs):\n\tid=kwargs['id']\n\tscope = get_object_or_404(Scope , id=id)\n\t\n\tprint (scope)\n\tif request.method == 'POST':\n\t\tform = Chapter_Creation_Form(request.POST)\n\t\t\n\telse:\n\t\tform = Chapter_Creation_Form()\n\treturn save_chapter_form(request, form, 'projects/chapters/partial_chapter_create.html',id)\n\n@superuser\ndef chapter_update(request, id):\n\tdata=dict()\n\tchapter = get_object_or_404(Chapter, id=id)\n\tscope       = Scope.objects.get(chapter=chapter)\n\tuser        = get_object_or_404(User , email=request.user.email)\n\tproject     = scope.project\n\tchapters    = Chapter.objects.filter(scope=scope)\n\tcontext={\n        \t\t'project':project,\n\t\t\t\t'scope':scope,\n\t\t\t\t'chapters':chapters,\n\t\t\t\t'user':user\n\t\t\t\t}\n\tif request.method == 'POST':\n\t\tform = Chapter_Creation_Form(request.POST, instance=chapter)\n\t\tif form.is_valid():\n\t\t\tchapter.save()\n\t\t\tdata['form_is_valid'] = True  # This is just to play along with the existing code\n\t\t\tdata['html_scope'] = render_to_string('projects/scope_partial.html', context)\n\n\t\telse:\n\t\t\tdata['form_is_valid'] = False\n\tform = Chapter_Creation_Form(instance=chapter)\n\tdata['html_form'] = render_to_string('projects/chapters/partial_chapter_update.html', {'form':form} , request=request)\n\treturn JsonResponse(data)\n\n@superuser\ndef chapter_delete(request, id):\n    \n    data = dict()\n   \n    chapter     = get_object_or_404(Chapter ,id=id)\n    scope       = Scope.objects.get(chapter=chapter)\n    user        = get_object_or_404(User , email=request.user.email)\n    project     = scope.project\n    chapters    = Chapter.objects.filter(scope=scope)\n    context={\n\t\t\t\t'chapters':chapters,\n\t\t\t\t'project':project,\n\t\t\t\t'scope':scope,\n\t\t\t\t'user':user\n\t\t\t\n\t}\n    if request.method == 'POST':\n        chapter.delete()\n        data['form_is_valid'] = True  # This is just to play along with the existing code\n        data['action']='delete'\n        data['html_scope'] = render_to_string('projects/scope_partial.html', context)\n    else:\n        context = {'chapter':chapter}\n        data['html_form'] = render_to_string('projects/chapters/partial_chapter_delete.html', context, request=request,)\n    return JsonResponse(data)\n\n####MEASSUREMENTS\n#####################################################\n\n\n@superuser\ndef meassurement_scope(request , **kwargs):\n\n\ttemplate = 'projects/meassurements/meassurement_list.html'\n\tid_entry =kwargs['id']\n\tentry = get_object_or_404(Entry, id=id_entry)\n\tmeassurement_list =  Scope_Meassurement.objects.filter(entry=entry).order_by('id')\n\tcontext ={\n\t\t\t'entry':entry,\n\t\t\t\"meassurement_list\":meassurement_list\n\t}\n\treturn render (request , template, context)\n\n\n#crear mediciones ajax\n@superuser\t\t\t\ndef meassurement_create(request ,**kwargs):\n\tdata=dict()\n\tid_entry =kwargs['id']\n\tentry       = get_object_or_404(Entry, id=id_entry)\n\tmeassurements =Scope_Meassurement.objects.filter(entry=entry)\n\tcontext={\n        \t\t'entry':entry,\n\t\t\t\t'meassurement_list':meassurements\n\t\t\t\t}\n\tif request.method == 'POST':\n\t\tform = Meassurement_Creation_Form(request.POST)\n\t\t\n\t\tif form.is_valid():\n\n\t\t\tobj=form.save(commit=False)\n\t\t\tif obj.quantity == None and obj.coments == None:\n\t\t\t\tdata['form_is_valid'] = True\n\t\t\t\tmeassurement_list = Scope_Meassurement.objects.filter(entry=entry)\n\t\t\t\tdata['html_meassurements'] = render_to_string('projects/meassurements/partial_meassurements.html',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{'meassurement_list':meassurement_list,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t'entry':entry })\n\t\t\telse:\n\t\t\t\tobj.entry=entry\n\t\t\t\tobj.save()\n\t\t\t\tmeassurement_list = Scope_Meassurement.objects.filter(entry=entry)\n\n\t\t\t\tdata['form_is_valid'] = True  # This is just to play along with the existing code\n\t\t\t\tdata['html_meassurements'] = render_to_string('projects/meassurements/partial_meassurements.html',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{'meassurement_list':meassurement_list,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t'entry':entry })\n\n\t\telse:\n\t\t\tdata['form_is_valid'] = False\n\tform = Meassurement_Creation_Form()\n\tdata['html_form'] = render_to_string('projects/meassurements/meassurement_scope_form.html',\n\t\t\t\t\t\t\t\t\t\t {'form':form ,'entry':entry} , \n\t\t\t\t\t\t\t\t\t\t request=request)\n\treturn JsonResponse(data)\n\n@superuser\ndef meassurement_delete(request ,**kwargs):\n\n\tdata = dict()\n\tid_meassurement   = kwargs['id_meassurement']\n\tid_entry          = kwargs['id_entry']\n\tentry             = get_object_or_404(Entry, id=id_entry)\n\tmeassurement      = get_object_or_404(Scope_Meassurement, id=id_meassurement)\n\tmeassurements     = Scope_Meassurement.objects.filter(entry=entry)\n\t\n\tif request.method == 'GET':\n\t\tmeassurement.delete()\n\t\t\n\n\t\tmeassurement_list = Scope_Meassurement.objects.filter(entry=entry)\n\t\n\t\tdata['html_meassurements'] = render_to_string('projects/meassurements/partial_meassurements.html',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{'meassurement_list' : meassurement_list,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t'entry':entry },\n\t\t\t\t\t\t\t\t\t\t\t\t\t\trequest=request)\n\tif  request.method == 'POST':\n\t\tmeassurement.delete()\n\t\tmeassurement_list = Scope_Meassurement.objects.filter(entry=entry)\n\t\n\t\tdata['html_meassurements'] = render_to_string('projects/meassurements/partial_meassurements.html',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{'meassurement_list' : meassurement_list,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t'entry':entry },\n\t\t\t\t\t\t\t\t\t\t\t\t\t\trequest=request)\n\n\treturn JsonResponse(data)\n\n\n\n################################################## ENTRY ITEMS ############################################\n\ndef entry_item_create (request, **kwargs):\n\tpass\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+			"file": "views.py",
+			"file_size": 10326,
+			"file_write_time": 131737020605098844,
 			"settings":
 			{
-				"buffer_size": 11360,
+				"buffer_size": 10371,
 				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "{% load static %}\n{% block style %}\n<style type=\"text/css\">\n  input {\n    border: none;\n    width: 100%;\n  }\n  input #coments {\n    \n  }\n\n</style>\n\n{% endblock %}\n\n<form style=\"margin-bottom: 20px ;margin: 0px\" method=\"post\"\n   action=  \"{% url 'projects:meassurement_create' id=entry.id %}\"  \n   class=\"js-meassurement-create-form\">\n  {% csrf_token %}\n\n<table style=\"text-align: center; margin: 0px \" border=\"0\"  class=\"table table-bordered \">\n    <tr id='{{entry.id}}'>\n        <td>Item</td>\n        <td>Quantity/Unit[Scope]</td>\n        <td>Item Price </td>\n    </tr>\n\n    <tr id='{{entry.id}}'>\n        <td>{{ form.item}}</td>\n        <td>{{ form.quantity_per_entry_unit_scope}}</td>\n        <td>{{ form.item_price }} </td>\n    </tr>\n\n</table>\n\n</form>\n",
+			"file": "templates/projects/entry_items/partial_entry_item_form.html",
+			"file_size": 1312,
+			"file_write_time": 131737023322632300,
+			"settings":
+			{
+				"buffer_size": 757,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/projects/entry_items/entry_item_list.html",
+			"settings":
+			{
+				"buffer_size": 1823,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/projects/entry_items/partial_entry_item_list",
+			"settings":
+			{
+				"buffer_size": 0,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/projects/meassurements/partial_meassurements.html",
+			"settings":
+			{
+				"buffer_size": 1625,
 				"line_ending": "Unix"
 			}
 		},
@@ -408,7 +456,8 @@
 			"file": "/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/js/project.js",
 			"settings":
 			{
-				"buffer_size": 1228,
+				"buffer_size": 1611,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -416,15 +465,8 @@
 			"file": "models.py",
 			"settings":
 			{
-				"buffer_size": 38963,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "admin.py",
-			"settings":
-			{
-				"buffer_size": 3360,
+				"buffer_size": 39398,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -432,15 +474,17 @@
 			"file": "urls.py",
 			"settings":
 			{
-				"buffer_size": 718,
+				"buffer_size": 1295,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "views.py",
+			"file": "forms.py",
 			"settings":
 			{
-				"buffer_size": 7144,
+				"buffer_size": 810,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		}
@@ -578,47 +622,56 @@
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects",
-		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/__pycache__",
-		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/migrations",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/entry_items",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/meassurements",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/static",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/js"
 	],
 	"file_history":
 	[
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/entry_items/partial_entry_item_form.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/js/meassurement.js",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/meassurements/meassurement_list.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/meassurements/partial_meassurements.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/scope_partial.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/js/users.js",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/meassurements/partial_meassurement_form.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/meassurements/meassurement_scope_form.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/models.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/urls.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/forms.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/js/project.js",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/views.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/users/templates/users/base1.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/users/templates/users/client_list.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/project_list.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/meassurements/meassurement_list_real.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/chapters/partial_chapter_update.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/admin.py",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/js/pepe.js",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/scope.html",
+		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/css/bootstrap.css",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/models.py",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/users/models.py",
-		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/chapters/partial_chapter_update.html",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/chapters/partial_chapter_form.html",
-		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/views.py",
-		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/scope.html",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/chapters/partial_chapter_create.html",
-		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/urls.py",
-		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/scope_partial.html",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/chapters/partial_chapter_delete.html",
-		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/js/project.js",
-		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/models.py",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/entry.html",
-		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/js/pepe.js",
-		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/users/templates/users/base1.html",
-		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/forms.py",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/project_detail.html",
-		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/admin.py",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/fernando/settings.py",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/project_create.html",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/invoices/migrations/0001_initial.py",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/lib/python3.6/site-packages/django/contrib/admin/static/admin/js/vendor/jquery/jquery.js",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/js/project_detail.js",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/css/bootstrap-3.3.7.css",
-		"/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/js/users.js",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/users/templates/users/partial_user_delete.html",
-		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/users/templates/users/client_list.html",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/profiles/templates/profiles/client_profile_list.html",
 		"/Users/fernandogarciafonseca/Downloads/bootstrap-multiselect-master/docs/js/jquery-2.1.3.min.js",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/partial_project_list.html",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/project_create",
-		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/projects/templates/projects/project_list.html",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/templates/base.html",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/profiles/views.py",
 		"/Users/fernandogarciafonseca/Desktop/fernando-django/fernando/apps/offers/models.py",
@@ -706,15 +759,7 @@
 		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/profiles/templates/profiles/client_profile_list.html",
 		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/profiles/forms.py",
 		"/Users/fernandogarciafonseca/Desktop/django-project/static/static/js/clients.js",
-		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/profiles/templates/profiles/urls.py",
-		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/profiles/templates/profiles/client_profile_detail.html",
-		"/Users/fernandogarciafonseca/Desktop/django-project/static/static/css/mystyle.css",
-		"/Users/fernandogarciafonseca/Desktop/django-project/static/static/css/bootstrap.css",
-		"/Users/fernandogarciafonseca/Desktop/django-project/static/static/css/styles.css",
-		"/Users/fernandogarciafonseca/Desktop/django-project/static/static/css/bootstrap-3.3.7.css",
-		"/Users/fernandogarciafonseca/Desktop/django-project/static/static/js/bootstrap.js",
-		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/templates/users/partial_user_delete.html",
-		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/users/forms.py"
+		"/Users/fernandogarciafonseca/Desktop/django-project/myproject/apps/profiles/templates/profiles/urls.py"
 	],
 	"find":
 	{
@@ -751,24 +796,53 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "templates/projects/scope_partial.html",
+					"file": "views.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 11360,
+						"buffer_size": 10371,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6256,
-								6256
+								10295,
+								10295
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 4600.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "templates/projects/entry_items/partial_entry_item_form.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 757,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								445,
+								445
 							]
 						],
 						"settings":
@@ -778,78 +852,49 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1205.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/js/project.js",
+					"buffer": 2,
+					"file": "templates/projects/entry_items/entry_item_list.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1228,
+						"buffer_size": 1823,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								952,
-								952
+								1823,
+								1823
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 245.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "models.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 38963,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								17218,
-								17218
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 6049.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "admin.py",
-					"semi_transient": true,
+					"file": "templates/projects/entry_items/partial_entry_item_list",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3360,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
@@ -862,31 +907,119 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "urls.py",
-					"semi_transient": false,
+					"file": "templates/projects/meassurements/partial_meassurements.html",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 718,
+						"buffer_size": 1625,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								185,
-								185
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 164.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/Users/fernandogarciafonseca/Desktop/fernando-django/static/static/js/project.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1611,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								930,
+								930
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 289.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "models.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 39398,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								21453,
+								21453
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 8546.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "urls.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1295,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1250,
+								1233
 							]
 						],
 						"settings":
@@ -899,35 +1032,36 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "views.py",
+					"buffer": 8,
+					"file": "forms.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7144,
+						"buffer_size": 810,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5376,
-								5376
+								803,
+								793
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.sublime-syntax"
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3272.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 6,
 					"type": "text"
 				}
 			]
@@ -1022,7 +1156,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 325.0,
+	"side_bar_width": 352.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

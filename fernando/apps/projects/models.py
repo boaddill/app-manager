@@ -618,7 +618,14 @@ class Entry_Item_Price(models.Model):
 
 
 		''' auto calculo del atrubuto scope '''
-		self.project=self.entry.project
+
+		try:
+			if self.project:
+				self.project=self.entry.project
+			else :
+				pass
+		except:
+			pass
 
 
 		'''calculo del precios unitarios presupuesto de acuerde a parametros de la oferta y precios
@@ -664,28 +671,33 @@ class Entry_Item_Price(models.Model):
 # classes para las mediciones del presupuesto , objetivo , certificacion  y planificacion
 class Scope_Meassurement(models.Model):
 
-	entry               = models.ForeignKey(Entry, on_delete=models.CASCADE ,null=True,verbose_name="Entry")
-	coments             = models.CharField("coments", max_length=200, blank=True,null=True )
-	ud_type             = models.CharField("units", max_length=200, blank=True,null=True )
-	quantity			= models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)
-	width		        = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)
-	high    		    = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)
+	entry               = models.ForeignKey(Entry, on_delete=models.CASCADE ,blank=True,null=True,verbose_name="Entry" ,help_text='')
+	coments             = models.CharField("coments", max_length=200, blank=True,null=True  ,help_text='coments')
+	location            = models.CharField("coments", max_length=10, blank=True,null=True  ,help_text='location')
+	ud_type             = models.CharField("units", max_length=200, blank=True,null=True ,help_text='units' )
+	quantity			= models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20,help_text='width')
+	width		        = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20,help_text='high')
+	high    		    = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20,help_text='wide')
 	wide    		    = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)
 	total_meassurement  = models.DecimalField(blank=True,decimal_places=2,null=True,max_digits=20)
-	phase               = models.ForeignKey(Phase,on_delete=models.CASCADE  , verbose_name='phase',default=1)
-	Indirect_Cost_Entry = models.ForeignKey(Indirect_Cost_Entry, on_delete=models.CASCADE ,blank=True,null=True,verbose_name="Entry")
+	phase               = models.ForeignKey(Phase,on_delete=models.CASCADE  , verbose_name='phase',default=1,help_text='phase')
+	indirect_cost_entry = models.ForeignKey(Indirect_Cost_Entry, on_delete=models.CASCADE ,blank=True,null=True,verbose_name="Entry")
 
 	class Meta:        
 		verbose_name = "Scope Meassurement"
 		verbose_name_plural = "Scope Meassurements"
+		ordering = ['id']
 
 	def save(self):
+
+		
+		
 
 		self.ud_type = self.entry.units
 		A=[]
 		B=[self.width,self.high,self.wide]
 		for i in B:
-			if i!=None:
+			if i!=None and i!=0:
 				A.append(i)
 		C=1
 		for i in A:
@@ -694,7 +706,17 @@ class Scope_Meassurement(models.Model):
 			self.total_meassurement=self.quantity*C
 		else:
 			self.total_meassurement=0
+		if self.quantity == None:
+			self.quantity =0
+		if self.width == None:
+			self.width =0
+		if self.high == None:
+			self.high =0
+		if self.wide == None:
+			self.wide =0
+
 		super(Scope_Meassurement,self).save()
+		
 		
 class Invoice_Meassurement(models.Model):
 
@@ -1047,7 +1069,10 @@ def Meassurements_item_price_save(sender, instance, created, **kwargs):
 	
 @receiver(post_delete, sender=Buying_Entry)
 def Meassurements_item_price_delete(sender, instance,  **kwargs):
-	instance.item.save()
+	try:
+		instance.item.save()
+	except:
+		pass
 #recalculo de capitulos
 
 @receiver(post_save, sender=Entry)

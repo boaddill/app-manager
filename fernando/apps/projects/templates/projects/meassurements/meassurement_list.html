@@ -1,0 +1,115 @@
+{% extends 'users/base1.html' %}
+
+
+
+
+
+
+{% block style %}
+<style type="text/css">
+  
+  td, th {
+    text-align: center;
+  }
+
+
+</style>
+{% endblock %}
+
+
+{% block content%}
+<div style="border-bottom: solid 3px blue">
+<h3><span style="float: right; font-size: 0.7em ">{{request.user.profile_employee.employee_name}}</span></h3>  
+<h3> <span style="">Scope meassurements </span> <br> {{entry.entry_name}}  </h3>
+</div>
+
+<div style="margin-top: 10px">
+
+  <div class='raw' >
+  <div class="col-sm-5 " style="padding: 0px" >
+      <button id="scope" style="margin-bottom: 15px" class="btn btn-primary" type="submit" class=""     >Scope</button>
+      <button id='invoice' style="margin-bottom: 15px" class="btn btn-primary" type="submit" class=""   >Invoice</button>
+      <button id='planif' style="margin-bottom: 15px" class="btn btn-primary" type="submit" class=""    >Planification</button>
+      <button id="target" style="margin-bottom: 15px" class="btn btn-primary" type="submit" class=""    >Target</button>
+      <button id="real" style="margin-bottom: 15px" class="btn btn-primary" type="submit" class=""      >Real</button>
+
+  </div>
+
+  <div id="meassurements-container">
+
+        {% include 'projects/meassurements/partial_meassurements.html' %}
+
+  </div>
+
+   
+ <button  
+
+    type="button" 
+    class="btn btn-primary btn-sm " 
+    id="meassurements-load"   
+    data-url=  "{% url 'projects:meassurement_create' id=entry.id %}"  
+    style=" margin: auto; margin-top: 20px" > 
+
+
+      <span style="margin-right: 7px" class="glyphicon glyphicon-plus" > 
+        
+      </span>Add new
+  </button>
+
+
+
+  <button type="button" 
+      class="btn btn-danger btn-sm delete-meassurements-selected"   
+      data-url=""     
+      style=" margin: auto; margin-top: 20px" > 
+      <span class="glyphicon glyphicon-trash" > 
+      </span>Delete selected
+  </button>
+
+
+  <button   
+
+    type="button" 
+    class="btn btn-primary btn-sm meassurements-submit " 
+    id=""   
+    data-url=  ""  
+    style=" margin: auto; margin-top: 20px; float: right;" > 
+
+
+      <span style="margin-right: 7px" class="glyphicon glyphicon-plus" >
+        
+      </span>Submit Meassurements
+  </button>
+
+
+
+<div  style="margin-top: 10px">
+      <button type="button" class="btn btn-warning btn-sm "   
+      data-url=""   
+      style=" margin: auto;" > 
+      <span style="margin-right: 7px" class="glyphicon glyphicon-plus" ></span>Add to invoice
+    </button>
+    <button type="button" class="btn btn-warning btn-sm"   
+      data-url=""   
+      style=" margin: auto;" > 
+      <span style="margin-right: 7px" class="glyphicon glyphicon-plus" ></span>Add to planif
+    </button>
+    <button type="button" class="btn btn-warning btn-sm "   
+      data-url=""   
+      style=" margin: auto;" > 
+      <span style="margin-right: 7px" class="glyphicon glyphicon-plus" ></span>Add to target
+    </button>
+    <button type="button" class="btn btn-warning btn-sm"   
+      data-url=""   
+      style=" margin: auto;" > 
+      <span style="margin-right: 7px" class="glyphicon glyphicon-plus" ></span>Add to real 
+    </button>
+
+</div>
+
+
+
+
+
+
+{%endblock%}

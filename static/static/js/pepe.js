@@ -44,9 +44,8 @@ $(document).ready(function(){
 
 $("#project-container").on("click", ".entry", toggle);
 $('#project-container').on('click','.item',toggle2);
+//call to measurement
 
-
-  
 	   
 
 	    

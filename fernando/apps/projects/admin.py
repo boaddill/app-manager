@@ -31,7 +31,7 @@ class AdminChapter(admin.ModelAdmin):
 admin.site.register(Chapter, AdminChapter)
 
 class AdminEntry(admin.ModelAdmin):
-	list_display = ['code','units','entry_name','scope_unt_price','target_unt_price','real_unt_price',
+	list_display = ['id','code','units','entry_name','scope_unt_price','target_unt_price','real_unt_price',
 					'scope_quantity','real_quantity','scope_price','real_price' ,
 					 'chapter','risk_factor'
 
@@ -42,7 +42,7 @@ class AdminEntry(admin.ModelAdmin):
 admin.site.register(Entry, AdminEntry)
 
 class AdminPhase(admin.ModelAdmin):
-	list_display = ['phase_code','phase_name','coments','start_date','end_date','scope_price',
+	list_display = ['id','phase_code','phase_name','coments','start_date','end_date','scope_price',
 			'invoice_price','planif_price','target_price','real_price']
 	#form = InvoiceForm
 	class Meta:
