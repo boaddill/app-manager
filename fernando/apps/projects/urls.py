@@ -2,12 +2,21 @@ import re
 from django.urls import path
 from  .views import  (project_list,project_detail,
 					 project_create,
+<<<<<<< HEAD
+
+					 scope_detail,chapter_create,chapter_delete,
+					 chapter_update,
+
+					 scope_detail,chapter_create,chapter_delete,chapter_update
+=======
 					 scope_detail,chapter_create,chapter_delete,chapter_update,
                       meassurement_scope,meassurement_create,
                       meassurement_delete,entry_item_create
                       
                       
                      
+>>>>>>> fernando
+
 
 )
 

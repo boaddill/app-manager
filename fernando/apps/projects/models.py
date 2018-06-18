@@ -317,12 +317,27 @@ class Chapter (models.Model):
 	class Meta:        
 		ordering = ['code']
 
+	
+
+
+
+
+
+class Task (models.Model):
+	code                 = models.CharField("Code", max_length=200, blank=True,null=True )
+	task_name            = models.CharField("Task name ", max_length=200, blank=True,null=True )
+	
+	description          = models.TextField("coments", max_length=400, blank=True,null=True,default='coments')
+	
+
+class Entry (models.Model):
+
 	def save(self):
 		self.quantity_target = self.quantity_scope
 		self.quantity_planif = self.quantity_scope
 		
 
-		
+
 
 		#scope
 		self.entry_prices_obj = self.entry_set.all()
@@ -572,7 +587,9 @@ class Entry (models.Model):
 				self.real_price=0
 		super(Entry,self).save()
 
+
 #fin metodo save para Entries 
+
 	def __str__(self):
 		return "%s - %s" %(self.entry_name ,self.project.project_name)
 	class Meta:        

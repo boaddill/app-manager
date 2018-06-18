@@ -170,22 +170,14 @@ def save_chapter_form(request, form, template_name, id):
    
     if request.method == 'POST':
         if form.is_valid():
-        	scope = get_object_or_404(Scope , id=id)
-        	pp=form.save(commit=False)
-        	pp.scope=scope
-        	pp.save()
-        	chapters    = Chapter.objects.filter(scope=scope)
-        	project     =scope.project
-        	user        = get_object_or_404(User , email=request.user.email)
-
-        	context={
-        		'project':project,
-				'scope':scope,
-				'chapters':chapters,
-				'user':user}
-        	data['form_is_valid'] = True
-
-        	data['html_scope'] = render_to_string('projects/scope_partial.html', context)
+          	form.save()
+          	scope       = get_object_or_404(Scope , id=id)
+          	chapters    = Chapter.objects,filter(scope=scope)
+          	project     = scope.project
+          	user        = get_object_or_404(User , email=request.user.email)
+          	context={'project':project,'scope':scope,'chapters':chapters,'user':user}
+          	data['form_is_valid'] = True
+          	data['html_scope'] = render_to_string('projects/scope_partial.html', context)
         else:
             data['form_is_valid'] = False
     context = {'form': form , 'id':id}
@@ -195,9 +187,15 @@ def save_chapter_form(request, form, template_name, id):
 
 @superuser				
 def chapter_create(request ,**kwargs):
+
+	scope_id = kwargs['id']
+	scope = get_object_or_404(Scope , id=scope_id)
+	initial =scope
+
 	id=kwargs['id']
 	scope = get_object_or_404(Scope , id=id)
 	
+
 	print (scope)
 	if request.method == 'POST':
 		form = Chapter_Creation_Form(request.POST)
@@ -208,6 +206,10 @@ def chapter_create(request ,**kwargs):
 
 @superuser
 def chapter_update(request, id):
+
+   
+
+
 	data=dict()
 	chapter = get_object_or_404(Chapter, id=id)
 	scope       = Scope.objects.get(chapter=chapter)
@@ -232,6 +234,7 @@ def chapter_update(request, id):
 	form = Chapter_Creation_Form(instance=chapter)
 	data['html_form'] = render_to_string('projects/chapters/partial_chapter_update.html', {'form':form} , request=request)
 	return JsonResponse(data)
+
 
 @superuser
 def chapter_delete(request, id):

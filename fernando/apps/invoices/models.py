@@ -1,7 +1,8 @@
-from django.db.models.signals import post_save, post_delete,pre_save
+from django.db.models.signals import  post_delete, post_save
 from django.dispatch import receiver
 from django.db import models
 import datetime
+from .signals.signals import my_signal
 
 
 
@@ -86,7 +87,7 @@ class Invoice(models.Model):
 class Buying_Entry(models.Model):
 
 	date             = models.DateField('date',auto_now=False)
-	item             = models.ForeignKey('projects.Entry_Item_Price' , on_delete=models.CASCADE, verbose_name='Item' )
+	item             = models.ForeignKey('projects.Entry_Item_Price' , on_delete=models.CASCADE, blank=True,null=True,verbose_name='Item' )
 	units            = models.CharField("units", max_length=200, blank=True,null=True ,default='unidades')
 	quantity		 = models.DecimalField(blank=True,null=True, decimal_places=2,max_digits=10)
 	price            = models.DecimalField(blank=True,null=True ,decimal_places=2,max_digits=10)
@@ -112,7 +113,9 @@ class Buying_Entry(models.Model):
 			self.total_price = 0
 		super(Buying_Entry,self).save()
 
+
 	def __str__(self):
+		pass
 
 		return '%s %s %s'  %(self.date, self.item, self.total_price)
 
@@ -135,11 +138,17 @@ class Time_Sheet(models.Model):
 		verbose_name_plural = "Time Sheets"
 
 	def save(self):
+		my_signal.send(sender=Time_Sheet,instance=self)
 		self.total_price=self.quantity*self.employee.hour_price
 		super(Time_Sheet,self).save()
 
 	
+
+
+	
+
 #update Docket class
+
 @receiver(post_save, sender=Buying_Entry)
 def save_Docket(sender,created, instance,**kwargs):
 	obj=instance.docket
@@ -156,21 +165,24 @@ def save_Docket(sender,created, instance,**kwargs):
 	
 
 
+
 @receiver(post_delete, sender=Buying_Entry)
 def delete_Docket(sender, instance,**kwargs):
-	
+	print("hola")
 	obj=instance.docket
 	obj2=instance.order
-	if obj:
-		obj.save()
-	if obj2:
-		obj2.save()
+	obj.save()
+	obj2.save()
 
 	
 @receiver(post_save, sender=Time_Sheet)
 def timesheet_save_Docket(sender,created, instance,**kwargs):
 	obj=instance.docket
 	obj1=instance.order
+
+	obj.save()
+	obj1.save()
+
 	if obj:
 		obj.save()
 	
@@ -179,15 +191,14 @@ def timesheet_save_Docket(sender,created, instance,**kwargs):
 	
 
 
+
 @receiver(post_delete, sender=Time_Sheet)
 def timesheet_delete_Docket(sender, instance,**kwargs):
-	
+	print("hola")
 	obj=instance.docket
 	obj2=instance.order
-	if obj:
-		obj.save()
-	if obj2:
-		obj2.save()
+	obj.save()
+	obj2.save()
 
 	
 
